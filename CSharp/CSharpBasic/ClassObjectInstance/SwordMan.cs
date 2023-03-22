@@ -12,6 +12,16 @@ using System.Threading.Tasks;
 // 함수 : PascalCase
 //
 
+// namespace
+// 이름으로 메모리 공간을 식별하기위한 키워드
+// 일반적인 namespace 작명 : 팀/회사 이름.기술스택이름.기타 세부 카테고리
+
+namespace ClassObjectInstance.UISystems.Characters
+{
+    internal class SwordMan
+    {
+    }
+}
 
 namespace ClassObjectInstance
 {
