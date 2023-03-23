@@ -21,6 +21,13 @@ namespace Structure
       구조체를 선택한다.
     */
 
+    struct Vector3
+    {
+        public float x;
+        public float y;
+        public float z;
+    }
+
 
     public struct Stats
     {
