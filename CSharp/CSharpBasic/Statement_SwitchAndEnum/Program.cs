@@ -84,7 +84,7 @@ switch (playerState)
 }
 
 Player player= new Player();
-player.Layer = 2;
+player.Layer = 1;
 
 if ((LayerMask)player.Layer == LayerMask.Player ||
     (LayerMask)player.Layer == LayerMask.Enemy ||
