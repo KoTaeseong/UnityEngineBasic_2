@@ -8,6 +8,18 @@ namespace Inheritance
 {
     internal class Wizard : Character
     {
+        public override void SayHi()
+        {
+            base.SayHi();
+            Console.WriteLine("너는 누구니");
+        }
+
+        public Wizard(int hp, int attackPower)
+            : base(hp, attackPower)
+        {
+
+        }
+
         protected override void Breath()
         {
             Console.WriteLine("Wizard 이(가) 숨을 쉰다.");

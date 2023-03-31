@@ -18,12 +18,18 @@ namespace Inheritance
 
         protected int hp;
 
-        public void Damage(int value)
+        public void Damage(IAttackable attacker, int value)
         {
             if (hp - value < 0)
+            {
                 hp = 0;
+                Console.WriteLine($"{attacker}가 {this}를 파괴하는데 성공했습니다.");
+            }
             else
+            {
                 hp -= value;
+                Console.WriteLine($"{attacker}가 {this}를 파괴중입니다... {this}의 남은 체력 : {hp}");
+            }
         }
     }
 }
