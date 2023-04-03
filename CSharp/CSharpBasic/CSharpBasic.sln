@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HorseRacing", "HorseRacing\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Array2D", "Array2D\Array2D.csproj", "{1045255D-4ACB-4AB3-8478-DE5C4EDF693C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inheritance", "Inheritance\Inheritance.csproj", "{7FE2F4FA-D9DD-4132-8213-E9A16B4AF621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inheritance", "Inheritance\Inheritance.csproj", "{7FE2F4FA-D9DD-4132-8213-E9A16B4AF621}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "MyDynamicArray\Collections.csproj", "{05BABFBE-9D1C-4720-BF02-87378006ACC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{7FE2F4FA-D9DD-4132-8213-E9A16B4AF621}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FE2F4FA-D9DD-4132-8213-E9A16B4AF621}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FE2F4FA-D9DD-4132-8213-E9A16B4AF621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05BABFBE-9D1C-4720-BF02-87378006ACC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05BABFBE-9D1C-4720-BF02-87378006ACC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05BABFBE-9D1C-4720-BF02-87378006ACC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05BABFBE-9D1C-4720-BF02-87378006ACC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
