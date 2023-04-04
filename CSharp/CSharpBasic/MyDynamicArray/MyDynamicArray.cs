@@ -25,6 +25,17 @@ namespace Collections
             }
         }
 
+        public int this[int index]
+        {
+            get
+            {
+                return _data[index];
+            }
+            set
+            {
+                _data[index] = value;
+            }
+        }
         private const int DEFAULT_SIZE = 1;
         private int[] _data = new int[DEFAULT_SIZE];
         private int _count = 0;
@@ -86,11 +97,11 @@ namespace Collections
             {
                 _data[i] = _data[i + 1];
             }
-            _data[_count] = default(int);
             _count--;
+            _data[_count] = default(int);
         }
 
-        public bool Revoe(int item)
+        public bool Remove(int item)
         {
             int index = FindIndex(item);
 
