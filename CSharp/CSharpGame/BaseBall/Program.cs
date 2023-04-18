@@ -1,9 +1,9 @@
 ﻿using System.Text;
+using Baseball;
 
+/*
 Random _random;
 _random = new Random();
-bool game = true;
-
 
 //컴퓨터 숫자 3자리 정하기
 int[] numArray = {0,1,2,3,4,5,6,7,8,9 };
@@ -28,8 +28,10 @@ while (count < 3)
         count++;
     }
 }
-//Console.WriteLine(num);
+*/
+string num = CreateNum.Create();
 
+bool game = true;
 
 Console.WriteLine("컴퓨터가 값을 생각했어요");
 Console.WriteLine("컴퓨터가 생각한 값을 맞춰보세요.(3자리)");
@@ -38,7 +40,7 @@ while (game)
 {
     string input = Console.ReadLine();
 
-
+    /*
     int Boll = 0;
     int Strike = 0;
     int Out = 0;
@@ -75,6 +77,8 @@ while (game)
     {
         game= false;
     }
+    */
+    Check.CheckValue(num, input, ref game);
 
 }
 
