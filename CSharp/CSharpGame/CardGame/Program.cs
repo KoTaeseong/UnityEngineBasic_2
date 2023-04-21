@@ -98,6 +98,7 @@ static void CheckMyCard(List<string> mycard, List<int> mycard_onlynum, List<char
     if (mycard_onlychar[0] == mycard_onlychar[4])
     {
         Console.WriteLine("플러시");
+        return;
     }
 
     //스트레이트
@@ -110,6 +111,7 @@ static void CheckMyCard(List<string> mycard, List<int> mycard_onlynum, List<char
             if (strateCount == 4)
             {
                 Console.WriteLine("스트레이트");
+                return;
             }
         }
         else
