@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         //카드 5장 이미지 변경
         for (int i = 0; i < card.Length; i++)
         {
