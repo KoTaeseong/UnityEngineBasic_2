@@ -7,11 +7,6 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    GameObject[] Deck = new GameObject[52];
-    [SerializeField]
-    GameObject PFCard = null;
-
-
     [SerializeField] GameObject[] card;
     public Sprite[] my_sprites; 
     SpriteRenderer card_renderer;
@@ -23,6 +18,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        //카드 5장 이미지 변경
         for (int i = 0; i < card.Length; i++)
         {
             card_renderer = card[i].GetComponent<SpriteRenderer>();
@@ -30,26 +27,25 @@ public class GameManager : MonoBehaviour
         }
         
 
-
         //카드 정보 넣기
         for (int i = 0; i < card.Length; i++)
         {
-            card_renderer = card[i].GetComponent<SpriteRenderer>();
-            card_list_shapeOnly.Add(Convert.ToChar(card_renderer.sprite.name.Substring(2, 1)));
-            card_list_numOnly.Add(Convert.ToInt32(card_renderer.sprite.name.Substring(0, 2)));
+            card_renderer = card[i].GetComponent<SpriteRenderer>(); //렌더러에 선택된 카드의 스프라이트 렌더러 넣기
+            card_list.Add(card_renderer.sprite.name);   //카드리스트에 뽑은 카드 넣기
+            card_list_shapeOnly.Add(Convert.ToChar(card_renderer.sprite.name.Substring(2, 1))); //문자 배열에 카드 문양 넣기
+            card_list_numOnly.Add(Convert.ToInt32(card_renderer.sprite.name.Substring(0, 2)));  //숫자 배열에 카드 숫자 넣기
+
+            //Debug.Log(card_list[i]);
         }
-        card_list_numOnly.Sort();
+
+        //뽑은 카드의 정보들 정렬
+        card_list_numOnly.Sort();   
         card_list_shapeOnly.Sort();
+
+        //뽑은 카드의 족보 체크
         CheckMyCard(card ,card_list_numOnly,card_list_shapeOnly);
 
-
-        //덱 생성
-        for (int i = 0; i < my_sprites.Length; i++)
-        {
-            Deck[i] = Instantiate<GameObject>(PFCard);
-            card_renderer = Deck[i].GetComponent<SpriteRenderer>();
-            card_renderer.sprite = my_sprites[i];
-        }
+        
     }
 
     // Update is called once per frame
@@ -64,7 +60,6 @@ public class GameManager : MonoBehaviour
         if (card_list_shapeOnly[0] == card_list_shapeOnly[4])
         {
             Debug.Log("플러시");
-            return;
         }
 
         //스트레이트
