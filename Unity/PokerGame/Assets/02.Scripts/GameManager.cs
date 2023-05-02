@@ -7,12 +7,17 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] GameObject PFCard = null;  //복사할 카드 오브젝트
-    [SerializeField] Sprite[] CardSprites = null;   //카드 그림
+    [SerializeField] GameObject mPFCard = null;  //복사할 카드 오브젝트
+    [SerializeField] Sprite[] mCardSprites = null;   //카드 그림
 
-    [SerializeField] GameObject Deck = null;
+    [SerializeField] GameObject mDeck = null;
+    [SerializeField] GameObject mHand = null;
 
-    List<GameObject> CardObjectList = new List<GameObject>(); //생성한 카드를 넣을 리스트
+    List<GameObject> mDeckList = new List<GameObject>(); //생성한 카드를 넣을 리스트
+
+    List<GameObject> mMyCardList = new List<GameObject>(); //플레이어 핸드
+
+    List<int> mDrawCardList = new List<int>();  //뽑은 카드 리스트
 
     // Start is called before the first frame update
     void Start()
@@ -31,20 +36,39 @@ public class GameManager : MonoBehaviour
 
     public void CreateDeck()
     {
-        CardObjectList.Clear(); //리스트 초기화
+        mDeckList.Clear(); //리스트 초기화
 
-        GameObject card = null;
-        SpriteRenderer cardRenderer = null;
+        GameObject tCard = null;
+        SpriteRenderer tCardRenderer = null;
 
-        for (int i = 0; i < CardSprites.Length; i++)
+        for (int i = 0; i < mCardSprites.Length; i++)
         {
-            card = Instantiate<GameObject>(PFCard);
-            cardRenderer = card.GetComponent<SpriteRenderer>();
-            cardRenderer.sprite = CardSprites[i];
+            tCard = Instantiate<GameObject>(mPFCard);
+            tCardRenderer = tCard.GetComponent<SpriteRenderer>();
+            tCardRenderer.sprite = mCardSprites[i];
+            tCard.gameObject.name = mCardSprites[i].name;
 
-            card.transform.SetParent(Deck.transform, false);
+            tCard.transform.SetParent(mDeck.transform, false);
 
-            CardObjectList.Add(card);
+            mDeckList.Add(tCard);
+        }
+    }
+
+    public void DrawCard(int tNumb)
+    {
+        for (int i = 0; i < tNumb;)
+        {
+            int tRandom = UnityEngine.Random.Range(0, mDeckList.Count);
+            if (mDrawCardList.Contains(tRandom))
+            {
+                continue;
+            }
+            else
+            {
+                mMyCardList.Add(mDeckList[tRandom]);
+                mDrawCardList.Add(tRandom);
+                i++;
+            }
         }
     }
 }

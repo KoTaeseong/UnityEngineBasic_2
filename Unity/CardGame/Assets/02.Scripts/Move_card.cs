@@ -13,7 +13,7 @@ public class Move_card : MonoBehaviour
     Vector3 next_position;
     Vector3 tVelocity;
 
-    
+    public bool isMove = false;
 
     void Start()
     {
@@ -35,7 +35,9 @@ public class Move_card : MonoBehaviour
         //this.transform.position += next_position.normalized * Time.deltaTime;
 
         //my_rigid.MovePosition(transform.position + next_position.normalized * Time.deltaTime * 3);
-
-        this.transform.position = Vector3.MoveTowards(transform.position, target_position, 10 * Time.deltaTime);
+        if (isMove)
+        {
+            this.transform.position = Vector3.MoveTowards(transform.position, target_position, 10 * Time.deltaTime);
+        }
     }
 }

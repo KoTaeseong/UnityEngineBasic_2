@@ -21,8 +21,14 @@ public class CUIPlayGame : MonoBehaviour
 
     public void OnClickStartGame()
     {
+        gameManager.CreateDeck();
         
-        
-        
+        this.transform.Find("btnStart").gameObject.SetActive(false);
+        this.transform.Find("btnDraw").gameObject.SetActive(true);
+    }
+
+    public void OnClickDraw()
+    {
+        gameManager.DrawCard(5);
     }
 }

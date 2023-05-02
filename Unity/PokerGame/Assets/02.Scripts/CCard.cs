@@ -6,7 +6,10 @@ public class CCard : MonoBehaviour
 {
     bool isHide = true;
     SpriteRenderer cardRenderer;
-    Sprite cardSprtie = null;
+
+    Vector3 target_position;
+
+    bool mMove = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +28,11 @@ public class CCard : MonoBehaviour
         else
         {
             cardRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+
+        if(mMove)
+        {
+            this.transform.position = Vector3.MoveTowards(transform.position, target_position, 10 * Time.deltaTime);
         }
     }
 }
