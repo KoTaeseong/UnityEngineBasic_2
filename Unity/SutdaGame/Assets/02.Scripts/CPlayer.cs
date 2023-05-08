@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CPlayer : MonoBehaviour
 {
+    public List<string> myCard = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +16,10 @@ public class CPlayer : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void DoClear()
+    {
+        myCard.Clear();
     }
 }
