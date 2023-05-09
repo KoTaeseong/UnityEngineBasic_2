@@ -31,5 +31,6 @@ public class CUIPlayGame : MonoBehaviour
     public void DoBatting()
     {
         mGameManager.DoCheckJokbo();
+        mGameManager.Batting();
     }
 }

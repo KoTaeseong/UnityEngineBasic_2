@@ -21,5 +21,7 @@ public class CPlayer : MonoBehaviour
     public void DoClear()
     {
         myCard.Clear();
+
+        
     }
 }

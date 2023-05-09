@@ -6,7 +6,7 @@ public class CDeck : MonoBehaviour
 {
     public List<string> mDeckCards = null;
 
-    [SerializeField] CCard PFCard = null;
+    [SerializeField] public CCard PFCard = null;
 
     // Start is called before the first frame update
     void Start()

@@ -29,7 +29,9 @@ public class CCard : MonoBehaviour
     {
         if (isMove)
         {
-            this.transform.position = Vector3.MoveTowards(transform.position, mTargetPos, 10 * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(transform.position, mTargetPos, 15 * Time.deltaTime);
         }
+
+        
     }
 }

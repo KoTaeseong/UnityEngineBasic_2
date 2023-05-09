@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] CDeck mDeck = null;    //덱 게임오브젝트
+    [SerializeField] CDeck mpDeck = null;    //덱 게임오브젝트
     //[SerializeField] CPlayer mPlayer = null;
-    [SerializeField] CPlayer[] mPlayers = null; //플레이어 게임 오브젝트 배열
-    [SerializeField] TMPro.TMP_Text[] mTxtJokbos= null; //족보 텍스트 배열
+    [SerializeField] CPlayer[] mpPlayers = null; //플레이어 게임 오브젝트 배열
+    [SerializeField] TMPro.TMP_Text[] mpTxtJokbos= null; //족보 텍스트 배열
+    [SerializeField] TMPro.TMP_Text mpTxtResult= null; //족보 텍스트 배열
+
+    [SerializeField] Sprite[] mpSprite = null;   //스프라이트 소스
 
 
     List<string> mDrawCardList= new List<string>(); //뽑은 카드리스트들
@@ -81,6 +85,8 @@ public class GameManager : MonoBehaviour
         {"df" ,"46세륙"}, {"dF" ,"46세륙"},{"Df" ,"46세륙"},{"DF" ,"46세륙"},
     };  //족보2
 
+    List<int> mPlayerValues = new List<int>();
+
 
 
 
@@ -98,29 +104,60 @@ public class GameManager : MonoBehaviour
 
     public void DoTableSetting()
     {
-        mDeck.CreateDeck();
-        foreach (var item in mPlayers)
+        mpDeck.CreateDeck();
+        foreach (var item in mpPlayers)
         {
             item.DoClear();
+        }
+
+        mDrawCardList.Clear();
+        mPlayerValues.Clear();
+
+        for (int i = 0; i < mpPlayers.Length; i++)
+        {
+            mpTxtJokbos[i].text = "";
+        }
+
+        mpTxtResult.text = "";
+
+        //오브젝트 정리
+        for (int i = 0; i < mpPlayers.Length; i++)
+        {
+            for (int j = 0; j < mpPlayers[i].transform.childCount; j++)
+            {
+                Destroy(mpPlayers[i].transform.GetChild(j).gameObject);
+            }
+        }
+        for (int j = 0; j < mpDeck.transform.childCount; j++)
+        {
+            Destroy(mpDeck.transform.GetChild(j).gameObject);
+        }
+
+        //오브젝트 생성
+        for (int i = 0; i < 12; i++)
+        {
+            CCard tCard = Instantiate<CCard>(mpDeck.PFCard);
+            tCard.transform.SetParent(mpDeck.transform);
         }
     }
 
     public void DoDrawCard()
     {
-        for (int i = 0; i < mPlayers.Length; i++)
+        for (int i = 0; i < mpPlayers.Length; i++)
         {
             for (int j = 0; j < 2;)
             {
-                int random = UnityEngine.Random.Range(0, mDeck.mDeckCards.Count);   //랜덤한 숫자
-                if (!mDrawCardList.Contains(mDeck.mDeckCards[random]))  //뽑은카드에 없다면
+                int random = UnityEngine.Random.Range(0, mpDeck.mDeckCards.Count);   //랜덤한 숫자
+                if (!mDrawCardList.Contains(mpDeck.mDeckCards[random]))  //뽑은카드에 없다면
                 {
-                    mDrawCardList.Add(mDeck.mDeckCards[random]);    //뽑은카드에 추가
+                    mDrawCardList.Add(mpDeck.mDeckCards[random]);    //뽑은카드에 추가
 
-                    GameObject tCard = mDeck.transform.GetChild(0).gameObject; //덱의 첫번째 자식 카드를 가져옴
-                    tCard.gameObject.name = mDeck.mDeckCards[random];   //자식카드의 이름을 바꿈
-                    tCard.GetComponent<CCard>().TargetPos = mPlayers[i].transform.position + new Vector3(1.2f*j,0.0f,0.0f); //카드의 타깃을 플레이어로 변경
+                    GameObject tCard = mpDeck.transform.GetChild(0).gameObject; //덱의 첫번째 자식 카드를 가져옴
+                    tCard.gameObject.name = mpDeck.mDeckCards[random];   //자식카드의 이름을 바꿈
+                    tCard.GetComponent<SpriteRenderer>().sprite = mpSprite[random];
+                    tCard.GetComponent<CCard>().TargetPos = mpPlayers[i].transform.position + new Vector3(1.2f*j,0.0f,0.0f); //카드의 타깃을 플레이어로 변경
                     tCard.GetComponent<CCard>().IsMove = true;  //카드의 움직임 활성화
-                    tCard.transform.SetParent(mPlayers[i].transform);   //카드의 부모를 플레이어로 변경
+                    tCard.transform.SetParent(mpPlayers[i].transform);   //카드의 부모를 플레이어로 변경
 
                     j++;
                 }
@@ -130,26 +167,194 @@ public class GameManager : MonoBehaviour
 
     public void DoCheckJokbo()
     {
-        for (int i = 0; i < mPlayers.Length; i++)
+        for (int i = 0; i < mpPlayers.Length; i++)
         {
+            List<string> t = new List<string>();
+
             for (int j = 0; j < 2; j++)
             {
-                string tCard = mPlayers[i].transform.GetChild(j).gameObject.name;
-                mPlayers[i].myCard.Add(tCard);
+                t.Add(mpPlayers[i].transform.GetChild(j).name);
             }
+            //정렬
+            t.Sort();
 
-            mPlayers[i].myCard.Sort();
-            string tPayerCard = mPlayers[i].myCard[0] + mPlayers[i].myCard[1];
+            Debug.Log(i+"플레이어" +t[0] + t[1]);
+            string thand = t[0] + t[1];
+            Debug.Log(i + "플레이어" + thand);
 
-            Debug.Log($"플레이어{i}의 카드 {tPayerCard.ToString()}.");
-
-            //만약 족보에 있다면
-            if (mJokbo.ContainsKey(tPayerCard))
+            if (mJokbo.ContainsKey(thand))
             {
-                
+                mpTxtJokbos[i].text = mJokbo2[thand];
+                mPlayerValues.Add(mJokbo[thand]);
             }
+            else //끝 계산
+            {
+                int tInt = mJokbo[t[0]] + mJokbo[t[1]];
 
+                if (tInt >= 10)
+                {
+                    tInt = Math.Abs(tInt - 10);
+                }
+
+                mpTxtJokbos[i].text = tInt.ToString() + "끗";
+                mPlayerValues.Add(tInt);
+            }
         }
+    }
+
+    public void Batting()
+    {
+        List<int> tList = mPlayerValues;
+
+        int tIndex = 0;
+
+        //멍텅구리 체크
+        if (CheckNum(tList, 50, out tIndex))
+        {
+            //38광땡 18,13광땡 10땡 체크
+            if (CheckNum3(tList, 210, 1000))
+            {
+                //있다면
+                tList[tIndex] = 3;
+            }
+            else
+            {
+                //없다면
+                //Console.WriteLine("재경기");
+                mpTxtResult.text = "재경기";
+                return;
+            }
+        }
+        //파토 체크
+        if (CheckNum(tList, 30, out tIndex))
+        {
+            //1땡 이상 있는지 체크
+            if (CheckNum3(tList, 201, 1000))
+            {
+                //있다면
+                tList[tIndex] = 3;
+            }
+            else
+            {
+                //없다면
+                //Console.WriteLine("재경기");
+                mpTxtResult.text = "재경기";
+                return;
+            }
+        }
+        //암행어사
+        if (CheckNum(tList, 90, out tIndex))
+        {
+            //광땡 체크
+            if (CheckNum2(tList, 500))
+            {
+                //있다면
+                tList[tIndex] = 501;
+            }
+            else
+            {
+                //없다면
+                tList[tIndex] = 1;
+            }
+        }
+        //땡잡이
+        if (CheckNum(tList, 20, out tIndex))
+        {
+            //1~9떙 체크
+            if (CheckNum3(tList, 201, 209))
+            {
+                //있다면
+                tList[tIndex] = 210;
+            }
+            else
+            {
+                //없다면
+                tList[tIndex] = 0;
+            }
+        }
+
+
+        //최종 비교
+        for (int i = 0; i < tList.Count; i++)
+        {
+            //Console.Write($"{tList[i]} ");
+        }
+        //Console.WriteLine();
+
+
+        //값들을 리스트에 넣음
+        List<int> list = new List<int>();
+        for (int i = 0; i < tList.Count; i++)
+        {
+            list.Add(tList[i]);
+        }
+        //정렬
+        list.Sort();
+        //최고값
+        int tt = list[list.Count - 1];
+        //최고값을 가진 플레이어 찾기
+        int tPlayer = 0;
+        for (int i = 0; i < tList.Count; i++)
+        {
+            if (tList[i] == tt)
+            {
+                tPlayer = i;
+                break;
+            }
+        }
+
+        if (tPlayer == 0)
+        {
+            //Console.WriteLine("당신이 이겼습니다");
+            mpTxtResult.text = "당신이 이겼습니다";
+        }
+        else
+        {
+            //Console.WriteLine($"{tPlayer}컴퓨터가 이겼습니다.");
+            mpTxtResult.text = tPlayer.ToString() + "컴퓨터가 이겼습니다" ;
+        }
+    }
+
+    bool CheckNum(List<int> tList, int tValue, out int tIndex)
+    {
+        for (int i = 0; i < tList.Count; i++)
+        {
+            if (tList[i] == tValue)
+            {
+                tIndex = i;
+                return true;
+            }
+        }
+        tIndex = -1;
+        return false;
+    }
+
+    //특정 족보 있는지 체크
+    bool CheckNum2(List<int> tList, int tValue)
+    {
+        for (int i = 0; i < tList.Count; i++)
+        {
+            if (tList[i] == tValue)
+            {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //범위 체크
+    bool CheckNum3(List<int> tList, int tMinValue, int tMaxValue)
+    {
+        for (int i = 0; i < tList.Count; i++)
+        {
+            if (tList[i] >= tMinValue &&
+                tList[i] <= tMaxValue)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
