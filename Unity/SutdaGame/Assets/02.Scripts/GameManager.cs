@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CPlayer[] mpPlayers = null; //플레이어 게임 오브젝트 배열
     [SerializeField] TMPro.TMP_Text[] mpTxtJokbos= null; //족보 텍스트 배열
     [SerializeField] TMPro.TMP_Text mpTxtResult= null; //족보 텍스트 배열
+    [SerializeField] TMPro.TMP_Text mpTxtChange= null; //족보 텍스트 배열
 
     [SerializeField] Sprite[] mpSprite = null;   //스프라이트 소스
 
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour
     
          // 재경기 94
         //멍텅구리              구사
-        {"id" ,"4,9멍텅구리"}, {"iD" ,"4,9파토"},{"Id" ,"4,9파토"},{"ID" ,"4,9파토"},
+        {"di" ,"4,9멍텅구리"}, {"Di" ,"4,9파토"},{"dI" ,"4,9파토"},{"DI" ,"4,9파토"},
     
         //땡잡이 37
         {"cg" ,"3,7땡잡이"}, {"Cg" ,"3,7땡잡이"},{"cG" ,"3,7땡잡이"},{"CG" ,"3,7땡잡이"},
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
     List<int> mPlayerValues = new List<int>();
 
 
-
+    int mCC = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -99,7 +101,32 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (mCC > 0)
+        { 
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Click");
+
+                Ray tRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                bool tIsCollision = false;
+                RaycastHit tHit;
+                tIsCollision = Physics.Raycast(tRay, out tHit, Mathf.Infinity);
+
+                if (tIsCollision)
+                {
+                    Debug.Log("Collision");
+
+                    if (tHit.transform.CompareTag("tagCard"))
+                    {
+                        Debug.Log("CollisionCard");
+
+                        ChangeCard(tHit.transform.gameObject);
+                    }
+                }
+            }
+        }
+
+        mpTxtChange.text = "Change : " + mCC.ToString();
     }
 
     public void DoTableSetting()
@@ -139,10 +166,14 @@ public class GameManager : MonoBehaviour
             CCard tCard = Instantiate<CCard>(mpDeck.PFCard);
             tCard.transform.SetParent(mpDeck.transform);
         }
+
+        mCC = 0;
     }
 
     public void DoDrawCard()
     {
+        mCC++;
+
         for (int i = 0; i < mpPlayers.Length; i++)
         {
             for (int j = 0; j < 2;)
@@ -200,6 +231,36 @@ public class GameManager : MonoBehaviour
                 mPlayerValues.Add(tInt);
             }
         }
+    }
+
+    public void ChangeCard(GameObject tCard)
+    {
+        Debug.Log("DoChange");
+
+        Vector3 tPosition = tCard.transform.position;
+
+        Destroy(tCard);
+
+
+        for (int j = 0; j < 1;)
+        {
+            int random = UnityEngine.Random.Range(0, mpDeck.mDeckCards.Count);   //랜덤한 숫자
+            if (!mDrawCardList.Contains(mpDeck.mDeckCards[random]))  //뽑은카드에 없다면
+            {
+                mDrawCardList.Add(mpDeck.mDeckCards[random]);    //뽑은카드에 추가
+
+                GameObject tChagneCard = mpDeck.transform.GetChild(0).gameObject; //덱의 첫번째 자식 카드를 가져옴
+                tChagneCard.gameObject.name = mpDeck.mDeckCards[random];   //자식카드의 이름을 바꿈
+                tChagneCard.GetComponent<SpriteRenderer>().sprite = mpSprite[random];
+                tChagneCard.GetComponent<CCard>().TargetPos = tPosition; //카드의 타깃을 플레이어로 변경
+                tChagneCard.GetComponent<CCard>().IsMove = true;  //카드의 움직임 활성화
+                tChagneCard.transform.SetParent(mpPlayers[0].transform);   //카드의 부모를 플레이어로 변경
+
+                j++;
+            }
+        }
+
+        mCC--;
     }
 
     public void Batting()
