@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CEnemy : MonoBehaviour
+public class CObject : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb = null;
 
@@ -48,6 +48,8 @@ public class CEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        this.transform.Rotate(new Vector3(0, 0, 0.5f), Space.World);
+
         if (this.transform.position.y <= mDisablePos)
         {
             this.gameObject.SetActive(false);
