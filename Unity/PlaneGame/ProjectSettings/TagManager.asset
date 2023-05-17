@@ -7,6 +7,8 @@ TagManager:
   - tagBullet
   - tagEnemy
   - tagActor
+  - Projectile
+  - tagEnemyBullet
   layers:
   - Default
   - TransparentFX

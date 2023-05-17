@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CActor : MonoBehaviour
 {
+    public static Vector3 Ppos;
+
     [SerializeField] float mSpeed = 3.0f;
 
     Rigidbody2D rb = null;
@@ -27,6 +29,8 @@ public class CActor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Ppos = transform.position;
+
         mHorizontal = Input.GetAxisRaw("Horizontal");
         mVertical = Input.GetAxisRaw("Vertical");
 

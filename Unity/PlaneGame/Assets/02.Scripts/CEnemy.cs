@@ -6,6 +6,7 @@ public class CEnemy : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb = null;
 
+    [SerializeField] int score = 100;
     [SerializeField] int mHP = 10;
     [SerializeField] int mMaxHP = 10;
     [SerializeField] float mSpeed = 3.0f;
@@ -65,6 +66,9 @@ public class CEnemy : MonoBehaviour
         mStartPos = tS;
         mEndPos = tE;
         mVelocity = (mEndPos- mStartPos).normalized * mSpeed;
+
+
+        
     }
 
     public void SetHp()
@@ -87,6 +91,8 @@ public class CEnemy : MonoBehaviour
         mHP -= t;
         if (mHP <= 0)
         {
+            CParticleMgr.action(this.transform.position);
+            CUIPlayGame.action(score);
             this.gameObject.SetActive(false);
         }
     }

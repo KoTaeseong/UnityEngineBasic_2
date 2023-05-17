@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CBullet : MonoBehaviour
+public class CBullet2 : MonoBehaviour
 {
     Rigidbody2D rb = null;
 
@@ -31,12 +31,12 @@ public class CBullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        mVelocity = Vector3.down * mSpeed;
     }
 
     private void OnEnable()
     {
-        mVelocity = Vector3.up * mSpeed;
+        
 
         rb.AddForce(mVelocity, ForceMode2D.Impulse);
     }

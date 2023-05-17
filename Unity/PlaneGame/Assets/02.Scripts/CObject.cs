@@ -6,6 +6,7 @@ public class CObject : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb = null;
 
+    [SerializeField] int score = 50;
     [SerializeField] int mHP = 10;
     [SerializeField] int mMaxHP = 10;
     [SerializeField] float mSpeed = 3.0f;
@@ -89,6 +90,8 @@ public class CObject : MonoBehaviour
         mHP -= t;
         if (mHP <= 0)
         {
+            CParticleMgr.action(this.transform.position);
+            CUIPlayGame.action(score);
             this.gameObject.SetActive(false);
         }
     }

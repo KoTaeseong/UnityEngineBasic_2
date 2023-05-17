@@ -7,7 +7,7 @@ public class CBulletMgr : MonoBehaviour
     [SerializeField] GameObject PFBullet = null;
     [SerializeField] int mBulletCount = 20;
 
-    public List<GameObject> mBullets = new List<GameObject>();
+    List<GameObject> mBullets = new List<GameObject>();
 
     int mBulletIndex = 0;
 
