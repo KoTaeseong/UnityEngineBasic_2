@@ -115,6 +115,20 @@ list.Find(dummy => dummy.x < 0);
 
 #endregion
 
+#region Linked List
+MyLinkedListOfT<int> myLinkedList = new MyLinkedListOfT<int>();
+myLinkedList.AddFirst(1);
+myLinkedList.AddFirst(5);
+Node<int> node = myLinkedList.Find(1);
+myLinkedList.AddAfter(node, 2);
+
+foreach (var item in myLinkedList)
+{
+    Console.WriteLine($"linked list item : {item}");
+}
+
+#endregion
+
 class Dummy : IComparable<Dummy>
 {
     public int x, y, z;
