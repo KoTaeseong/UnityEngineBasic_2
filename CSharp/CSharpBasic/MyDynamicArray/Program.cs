@@ -1,6 +1,7 @@
 ﻿using Collections;
 using System.Collections;   //오프젝트 타입 콜렉션
 using System.Collections.Generic;   //제너릭 타입 콜렉션
+using System.Globalization;
 
 //yield
 //IEnumerator / IEnumerable 로 반복기를 구현할때 MoveNext()에 해당하는 기능을 구현해줄때 사용
@@ -125,6 +126,64 @@ myLinkedList.AddAfter(node, 2);
 foreach (var item in myLinkedList)
 {
     Console.WriteLine($"linked list item : {item}");
+}
+
+#endregion\
+
+#region Dictionary
+
+MyDictionaryOfT<string, int> myDictionary = new MyDictionaryOfT<string, int>();
+
+myDictionary.Add("Luke", 80);
+myDictionary.Add("Jason", 40);
+myDictionary.Add("Bernd", 70);
+
+if (myDictionary.TryGetValue("Luke",out int value))
+{
+    Console.WriteLine($"Luke score : {value}");
+}
+
+Console.WriteLine(myDictionary["Rachel"]);
+//Console.WriteLine(myDictionary["Karl"]);
+
+#endregion
+
+#region HashSet
+
+HashSet<int> numbers = new HashSet<int>();
+if (numbers.Add(1))
+{
+    Console.WriteLine("Added 1");
+}
+if (numbers.Add(1))
+{
+    Console.WriteLine("Added 1");
+}
+
+#endregion
+
+#region Queue
+
+//선입선출 (First - In, First - Out : FIFO)
+Queue<int> queue = new Queue<int>();
+queue.Enqueue(1);
+int first = queue.Dequeue();
+if (queue.Count > 0)
+{
+    Console.WriteLine(queue.Peek());
+}
+
+#endregion
+
+#region Stack
+
+//후입선출(Last - In, First - Out : LIFO)
+Stack<int> stack = new Stack<int>();
+stack.Push(first);
+if (stack.Count >0)
+{
+    Console.WriteLine(queue.Peek());
+    stack.Pop();
 }
 
 #endregion
