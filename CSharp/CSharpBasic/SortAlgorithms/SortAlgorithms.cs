@@ -32,6 +32,63 @@ namespace SortAlgorithms
         }
         #endregion
 
+        #region Selection Sort
+        /// <summary>
+        /// 선택정렬
+        /// 처음부터 끝까지 순회하면서 현재 값보다 작은 값을 가진 인덱스를 찾아 스왑.
+        /// 한번 outer 돌때마다 가장 작은 인덱스가 고정됨.
+        /// UnStable. (정렬후에 정렬전의 순서가 보장안됨)
+        /// O(N^2)
+        /// </summary>
+        public static void SelectionSort(int[] arr)
+        {
+            int minIdx = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                minIdx = i;
+                //i 뒤의 가장 작은 값을 가진 인덱스 찾기
+                for (int j = i+1; j < arr.Length; j++)
+                {
+                    if (arr[j] < arr[minIdx])
+                        minIdx = j;
+                }
+
+                //i뒤에 더 작은 값의 인덱스를 찾았으면 스탑
+                if (i != minIdx)
+                    Swap(ref arr[i], ref arr[minIdx]);
+            }
+        }
+
+        #endregion
+
+        #region Insertion Sort
+        /// <summary>
+        /// 삽입 정렬
+        /// 현재 위치보다 이전 위치들 중에서 더 큰값이 있으면 더 큰값으로 현재 위치에 덮어쓰고
+        /// 덮어쓰기가 끝나면 마지막으로 덮어쓸 때 참조했던 위치에 현재 위치 값을 덮어씀.
+        /// 현재 탐색 위치 이전까지의 모든 인덱스가 정렬된 상태를 유지하면서 정렬진행
+        /// O(N^2)
+        /// </summary>
+        public static void InsertionSort(int[] arr)
+        {
+            int j, key;
+
+            for (int i = 1; i < arr.Length; i++)
+            {
+                key = arr[i];
+                j = i - 1;
+                while (j >= 0 &&
+                        arr[j] > key)
+                {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        }
+
+        #endregion
+
         //ref 키워드
         //인자를 참조형태로 받을 때 사용
         private static void Swap(ref int a, ref int b)
