@@ -19,9 +19,9 @@ namespace SortAlgorithms
         /// </summary>
         public static void BubbleSort(int[] arr)
         {
-            for (int i = 0; i < arr.Length -1; i++)
+            for (int i = 0; i < arr.Length - 1; i++)
             {
-                for (int j = 0; j < arr.Length -1; j++)
+                for (int j = 0; j < arr.Length - 1; j++)
                 {
                     if (arr[j] > arr[j + 1])
                     {
@@ -47,7 +47,7 @@ namespace SortAlgorithms
             {
                 minIdx = i;
                 //i 뒤의 가장 작은 값을 가진 인덱스 찾기
-                for (int j = i+1; j < arr.Length; j++)
+                for (int j = i + 1; j < arr.Length; j++)
                 {
                     if (arr[j] < arr[minIdx])
                         minIdx = j;
@@ -84,6 +84,101 @@ namespace SortAlgorithms
                     j--;
                 }
                 arr[j + 1] = key;
+            }
+        }
+
+        #endregion
+
+        #region Merge Sort
+        /// <summary>
+        /// 병합 정렬
+        /// Ω(NlogN)
+        /// θ(NlogN)
+        /// O(NlogN)
+        /// 공간복잡도 O(n)
+        /// stable
+        /// </summary>
+        public static void MergeSort(int[] arr)
+        {
+            MergeSort(arr, 0, arr.Length - 1);
+        }
+
+        public static void MergeSort(int[] arr, int start, int end)
+        {
+            if (start < end)
+            {
+                int mid = end + (start - end) / 2 - 1; // == (start + end) / 2 
+                //start와 end의 합연산 결과가 int의 표현보다 높을경우 오버플로우가 일어나는것을 방지하기 위함
+                MergeSort(arr, start, mid);
+                MergeSort(arr, mid + 1, end);
+
+                Merge(arr, start, mid, end);
+            }
+        }
+
+        private static void Merge(int[] arr, int start, int mid, int end)
+        {
+            int[] origin = new int[end + 1];
+            for (int i = 0; i < end + 1; i++)
+                origin[i] = arr[i];
+
+            int part1 = start;
+            int part2 = mid + 1;
+            int tmp = start;
+
+            while (part1 <= mid && part2 <= end)
+            {
+                if (origin[part1] <= origin[part2])
+                {
+                    arr[tmp++] = origin[part1++];
+                    //tmp++;
+                    //part1++;
+                }
+                else
+                {
+                    arr[tmp++] = origin[part2++];
+                }
+            }
+
+            //남은 part1 들을 tmp 위치에 쭉 이어서 덮어쓴다
+            for (int i = 0; i < mid - part1; i++)
+            {
+                arr[tmp + i] = origin[part1 + i];
+            }
+        }
+
+        #endregion
+
+        #region QuickSort
+
+        public static void QuickSort(int[] arr)
+        {
+            QuickSort(arr, 0, arr.Length -1);
+        }
+
+        public static void QuickSort(int[] arr, int start, int end)
+        {
+            if (start < end)
+            {
+                int pivot = Partition(arr, start, end);
+                QuickSort(arr, start, pivot - 1);
+                QuickSort(arr, pivot + 1, end);
+            }
+        }
+
+        private static int Partition(int[] arr, int start, int end)
+        {
+            int standard = arr[end + (start - end) / 2 - 1];
+
+            while (true)
+            {
+                while (arr[start] < standard) start++;
+                while (arr[end] > standard) end--;
+
+                if (start < end)
+                    Swap(ref arr[start], ref arr[end]);
+                else
+                    return end;
             }
         }
 
