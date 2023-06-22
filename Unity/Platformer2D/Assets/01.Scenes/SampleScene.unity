@@ -1758,7 +1758,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slug
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 9acf737390502cd4cb5fe0515504868b, type: 3}
 --- !u!1 &1191872466
 GameObject:
