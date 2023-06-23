@@ -53,7 +53,7 @@ public abstract class Movement : MonoBehaviour
     public event Action<float> onHorizontalChanged;
     private Rigidbody2D _rigidbody;
     private Vector2 _move;
-    private float _speed = 5;
+    [SerializeField] private float _speed = 1.0f;
 
     private void Awake()
     {
