@@ -18,13 +18,14 @@ public class Nepenthes : Enemy
         stateMachine.InitStates(new Dictionary<StateType, IStateEnumerator<StateType>>()
         { {StateType.Idle, new StateIdle(stateMachine)},
           {StateType.Move, new StateMove(stateMachine)},
-          {StateType.Attack, new StateAttack(stateMachine)}
+          {StateType.Attack, new StateAttack(stateMachine)},
+          {StateType.Hurt, new StateHurt(stateMachine)},
+          {StateType.Die, new StateDie(stateMachine)}
         });
     }
 
     private void Hit()
     {
-        Debug.Log("Hit");
         Collider2D target =
         Physics2D.OverlapBox((Vector2)transform.position + new Vector2(_attackBoxCenter.x * movement.direction,_attackBoxCenter.y),
                              _attackBoxSize,
@@ -34,7 +35,8 @@ public class Nepenthes : Enemy
         if (target &&
             target.TryGetComponent(out IHp ihp))
         {
-            ihp.hp -= _attackDamage;
+            ihp.Damage(this.gameObject, _attackDamage);
+            Debug.Log("Hit");
         }
     }
 

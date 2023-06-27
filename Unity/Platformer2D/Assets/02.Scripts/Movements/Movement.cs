@@ -25,7 +25,7 @@ public abstract class Movement : MonoBehaviour
             else
             {
                 transform.eulerAngles = Vector3.zero;
-                _direction = DIRECTION_LEFT;
+                _direction = DIRECTION_RIGHT;
             }
         }
     }
