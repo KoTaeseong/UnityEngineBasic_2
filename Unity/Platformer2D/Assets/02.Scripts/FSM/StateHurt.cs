@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StateHurt : State
 {
+    public override bool canExecute => machine.currentType != StateType.Attack;
+
     public StateHurt(StateMachine machine) : base(machine)
     {
     }
@@ -21,6 +23,8 @@ public class StateHurt : State
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = false;
                     animator.Play("Hurt");
                     currentStep++;
                 }
@@ -45,7 +49,7 @@ public class StateHurt : State
                 break;
             case IStateEnumerator<StateType>.Step.Finish:
                 {
-                    next = StateType.Idle;
+                    next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
                 }
                 break;
             default:

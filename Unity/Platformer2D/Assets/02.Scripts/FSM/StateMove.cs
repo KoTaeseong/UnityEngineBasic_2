@@ -1,5 +1,7 @@
 ﻿public class StateMove : State
 {
+    public override bool canExecute => true;
+
     public StateMove(StateMachine machine) : base(machine)
     {
     }
@@ -17,6 +19,8 @@
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
+                    movement.isMoveable = true;
+                    movement.isDirectionChangeable= true;
                     animator.Play("Move");
                     currentStep++;
                 }

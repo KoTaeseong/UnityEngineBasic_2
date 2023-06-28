@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class StateDie : State
 {
+    public override bool canExecute => true;
+
     public StateDie(StateMachine machine) : base(machine)
     {
     }
@@ -22,6 +24,8 @@ public class StateDie : State
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = false;
                     animator.Play("Die");
                     currentStep++;
                 }

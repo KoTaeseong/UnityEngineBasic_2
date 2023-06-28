@@ -24,7 +24,7 @@ public class DarkNepenthesProjectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((collision.gameObject.layer & _targetMask) > 0)
+        if ((1 << collision.gameObject.layer & _targetMask) > 0)
         {
             if (collision.TryGetComponent(out IHp ihp))
             {
