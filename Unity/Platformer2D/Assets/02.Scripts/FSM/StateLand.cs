@@ -1,16 +1,19 @@
-﻿public class StateMove : State
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StateLand : State
 {
     public override bool canExecute => true;
-    private GroundDetector _groundDetector;
 
-    public StateMove(StateMachine machine) : base(machine)
+
+    public StateLand(StateMachine machine) : base(machine)
     {
-        _groundDetector = machine.GetComponent<GroundDetector>();
     }
 
     public override StateType MoveNext()
     {
-        StateType next = StateType.Move;
+        StateType next = StateType.Land;
 
         switch (currentStep)
         {
@@ -21,9 +24,9 @@
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
-                    movement.isMoveable = true;
-                    movement.isDirectionChangeable= true;
-                    animator.Play("Move");
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = true;
+                    animator.Play("Land");
                     currentStep++;
                 }
                 break;
@@ -39,13 +42,16 @@
                 break;
             case IStateEnumerator<StateType>.Step.WaitUntilActionFinished:
                 {
-                    if (_groundDetector.isDetected == false)
+                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                     {
-                        next = StateType.Fall;
+                        currentStep++;
                     }
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Finish:
+                {
+                    next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                }
                 break;
             default:
                 break;

@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 4212252017776457478}
   - component: {fileID: 3955852942134528251}
   - component: {fileID: 8100846176737848905}
+  - component: {fileID: 7312342649845045513}
   m_Layer: 18
   m_Name: Slug
   m_TagString: Untagged
@@ -225,7 +226,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61d8521c6def3724da02ff29ef94a54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpForce: 0
+  landDistance: 1
   _hpMax: 100
+--- !u!114 &7312342649845045513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020139087161442813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cefd4622a3f7b3145b2a8407352adcaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDetected: 0
+  _castOffset: {x: 0, y: -0.015}
+  _castSize: {x: 0.08, y: 0.02}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &4020139087600105699
 GameObject:
   m_ObjectHideFlags: 0

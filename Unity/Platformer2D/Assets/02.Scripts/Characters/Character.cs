@@ -3,6 +3,10 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour, IHp
 {
+    [Header("Stats")]
+    [SerializeField] public float jumpForce;
+    public float landDistance = 1.0f;
+
     protected Movement movement;
     protected StateMachine stateMachine;
 

@@ -1,16 +1,20 @@
-﻿public class StateMove : State
+﻿using UnityEngine;
+
+public class StateJump : State
 {
-    public override bool canExecute => true;
+    public override bool canExecute => _groundDetector.isDetected &&
+                                      (machine.currentType == StateType.Idle ||
+                                       machine.currentType == StateType.Move);
     private GroundDetector _groundDetector;
 
-    public StateMove(StateMachine machine) : base(machine)
+    public StateJump(StateMachine machine) : base(machine)
     {
         _groundDetector = machine.GetComponent<GroundDetector>();
     }
 
     public override StateType MoveNext()
     {
-        StateType next = StateType.Move;
+        StateType next = StateType.Jump;
 
         switch (currentStep)
         {
@@ -21,9 +25,10 @@
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
-                    movement.isMoveable = true;
-                    movement.isDirectionChangeable= true;
-                    animator.Play("Move");
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = true;
+                    animator.Play("Jump");
+                    rigidBody.AddForce(Vector2.up * character.jumpForce ,ForceMode2D.Impulse);
                     currentStep++;
                 }
                 break;
@@ -39,13 +44,19 @@
                 break;
             case IStateEnumerator<StateType>.Step.WaitUntilActionFinished:
                 {
-                    if (_groundDetector.isDetected == false)
+                    if (rigidBody.velocity.y <= 0f)
                     {
-                        next = StateType.Fall;
+                        currentStep++;
                     }
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Finish:
+                {
+                    if (_groundDetector.isDetected)
+                        next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                    else
+                        next = StateType.Fall;
+                }
                 break;
             default:
                 break;
