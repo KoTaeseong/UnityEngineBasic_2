@@ -10,8 +10,18 @@ using UnityEngine.InputSystem;
 
 public class Player : Character
 {
+    private PlayerInput playerInput;
     private float _horizontal;
     private float _vertical;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        playerInput = GetComponent<PlayerInput>();
+        InputAction crouchAction = playerInput.currentActionMap.FindAction("Crouch");
+        crouchAction.performed += ctx => stateMachine.ChangeState(StateType.Crouch);
+        crouchAction.canceled += ctx => stateMachine.ChangeState(StateType.StandUp);
+    }
 
     public void OnHorizontal(InputValue value)
     {
