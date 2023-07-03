@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class StateStandUp : State
+public class StateDownJump : State
 {
-    public override bool canExecute => machine.currentType == StateType.Crouch;
+    public override bool canExecute => _groundDetector.isDetected &&
+                                       machine.currentType == StateType.Crouch;
+    private GroundDetector _groundDetector;
 
-    public StateStandUp(StateMachine machine) : base(machine)
+    public StateDownJump(StateMachine machine) : base(machine)
     {
+        _groundDetector = machine.GetComponent<GroundDetector>();
     }
-
 
     public override StateType MoveNext()
     {
-        StateType next = StateType.StandUp;
+        StateType next = StateType.DownJump;
 
         switch (currentStep)
         {
@@ -26,7 +26,9 @@ public class StateStandUp : State
                 {
                     movement.isMoveable = false;
                     movement.isDirectionChangeable = true;
-                    animator.Play("CrouchFinish");
+                    animator.Play("Jump");
+                    rigidBody.AddForce(Vector2.up * character.downJumpForce ,ForceMode2D.Impulse);
+                    _groundDetector.IgnoreLatest(collider);
                     currentStep++;
                 }
                 break;
@@ -42,7 +44,7 @@ public class StateStandUp : State
                 break;
             case IStateEnumerator<StateType>.Step.WaitUntilActionFinished:
                 {
-                    if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                    if (rigidBody.velocity.y <= 0f)
                     {
                         currentStep++;
                     }
@@ -50,7 +52,10 @@ public class StateStandUp : State
                 break;
             case IStateEnumerator<StateType>.Step.Finish:
                 {
-                    next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                    if (_groundDetector.isDetected)
+                        next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                    else
+                        next = StateType.Fall;
                 }
                 break;
             default:

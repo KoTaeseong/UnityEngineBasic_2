@@ -28,6 +28,7 @@ public class StateCrouch : State
                     movement.isMoveable = false;
                     movement.isDirectionChangeable = true;
                     animator.Play("CrouchStart");
+                    currentStep++;
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Casting:

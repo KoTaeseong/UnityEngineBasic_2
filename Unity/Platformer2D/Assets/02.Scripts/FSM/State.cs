@@ -5,6 +5,7 @@ public enum StateType
     Idle,
     Move,
     Jump,
+    DownJump,
     Fall,
     Land,
     Crouch,
