@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ public class GroundDetector : MonoBehaviour
     [SerializeField] private float _belowCastDistance = 2.0f;
 
     [SerializeField] private bool _isGroundExistBelow;
+    private WaitForSeconds _wait10f10sec;
 
     public bool IsGroundExistBelow()
     {
@@ -63,6 +65,7 @@ public class GroundDetector : MonoBehaviour
     {
         _ignorings.Add(ground);
         Physics2D.IgnoreCollision(collider, ground, true);
+        yield return _wait10f10sec;
         yield return new WaitUntil(() =>
         {
             Collider2D[] cols =
@@ -99,6 +102,10 @@ public class GroundDetector : MonoBehaviour
         _ignorings.Remove(ground);
     }
 
+    private void Awake()
+    {
+        _wait10f10sec = new WaitForSeconds(0.1f);
+    }
 
     private void FixedUpdate()
     {
