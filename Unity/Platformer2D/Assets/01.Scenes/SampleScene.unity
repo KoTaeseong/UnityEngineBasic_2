@@ -444,7 +444,7 @@ MonoBehaviour:
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: e9fb878f6f6b3924590278b4cfaedc5a, type: 3}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: e33c11e02f9df3a42811ca696658f2c3, type: 3}
   m_PointAction: {fileID: 0}
   m_MoveAction: {fileID: 0}
   m_SubmitAction: {fileID: 0}
@@ -3857,7 +3857,7 @@ SpriteRenderer:
   m_SortingLayerID: 1528555455
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4681548934482222617, guid: 3accdbde4e56f5c4e9cfa311b8cef55f, type: 3}
+  m_Sprite: {fileID: -3318188226485093758, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3916,6 +3916,7 @@ GameObject:
   - component: {fileID: 2132939251}
   - component: {fileID: 2132939253}
   - component: {fileID: 2132939258}
+  - component: {fileID: 2132939260}
   - component: {fileID: 2132939259}
   - component: {fileID: 2132939256}
   - component: {fileID: 2132939254}
@@ -3956,7 +3957,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132939250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.68, y: 0, z: 0}
+  m_LocalPosition: {x: 3.904, y: 0.108, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4040,6 +4041,7 @@ MonoBehaviour:
   jumpForce: 4
   downJumpForce: 1
   landDistance: 1
+  ladderMoveSpeed: 2
   _hpMax: 500
 --- !u!114 &2132939258
 MonoBehaviour:
@@ -4053,7 +4055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e9fb878f6f6b3924590278b4cfaedc5a, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: e33c11e02f9df3a42811ca696658f2c3, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 203012720}
   m_DeviceLostEvent:
@@ -4100,7 +4102,7 @@ MonoBehaviour:
     m_ActionName: Player/Horizontal[/Keyboard/leftArrow,/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Warrior
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 519420031}
 --- !u!114 &2132939259
@@ -4124,3 +4126,23 @@ MonoBehaviour:
   _belowCastOffset: {x: 0, y: -0.01}
   _belowCastDistance: 2
   _isGroundExistBelow: 0
+--- !u!114 &2132939260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132939250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 568719c8f7239734fa7adfebcdc62536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upLadder: {fileID: 0}
+  downLadder: {fileID: 0}
+  _upLadderDetectOffset: 0.15
+  _downLadderDetectOffset: 0.05
+  _detectRadius: 0.05
+  _ladderMask:
+    serializedVersion: 2
+    m_Bits: 512

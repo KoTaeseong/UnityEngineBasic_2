@@ -6,7 +6,8 @@ public abstract class Character : MonoBehaviour, IHp
     [Header("Stats")]
     [SerializeField] public float jumpForce;
     [SerializeField] public float downJumpForce = 1.0f;
-    public float landDistance = 1.0f;
+    [SerializeField] public float landDistance = 1.0f;
+    [SerializeField] public float ladderMoveSpeed = 2.0f;
 
     protected Movement movement;
     protected StateMachine stateMachine;

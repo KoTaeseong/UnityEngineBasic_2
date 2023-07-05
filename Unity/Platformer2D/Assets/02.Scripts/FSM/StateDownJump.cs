@@ -2,7 +2,7 @@
 
 public class StateDownJump : State
 {
-    public override bool canExecute => _groundDetector.isDetected &&
+    public override bool canExecute => _groundDetector.IsGroundExistBelow() &&
                                        machine.currentType == StateType.Crouch;
     private GroundDetector _groundDetector;
 
@@ -27,6 +27,7 @@ public class StateDownJump : State
                     movement.isMoveable = false;
                     movement.isDirectionChangeable = true;
                     animator.Play("Jump");
+                    rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0.0f);
                     rigidBody.AddForce(Vector2.up * character.downJumpForce ,ForceMode2D.Impulse);
                     _groundDetector.IgnoreLatest(collider);
                     currentStep++;

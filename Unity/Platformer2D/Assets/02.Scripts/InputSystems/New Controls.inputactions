@@ -1,50 +1,50 @@
 {
-    "name": "InputSettings",
+    "name": "New Controls",
     "maps": [
         {
-            "name": "Player",
-            "id": "c1c7bc63-053e-4364-a1fb-b318529174e6",
+            "name": "Warrior",
+            "id": "25aca910-d815-4b5b-a976-fa243626b395",
             "actions": [
+                {
+                    "name": "Horizontal",
+                    "type": "Value",
+                    "id": "e9b3db22-5604-42d1-bf1c-34bc3058b0e3",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
                 {
                     "name": "Attack",
                     "type": "Button",
-                    "id": "957af97f-5364-4138-952d-9c16df828232",
+                    "id": "cde9c719-ab5b-4bc9-b3fb-09134d6246ea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Horizontal",
-                    "type": "Value",
-                    "id": "d48a874a-5031-4118-b117-038a208afea7",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Vertical",
-                    "type": "Value",
-                    "id": "a99ac94a-2b3d-4640-bc3a-d63855d08bd5",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
                     "type": "Button",
-                    "id": "7823886f-401e-4cfd-a042-5f633fd191f5",
+                    "id": "6c8cafb4-1361-42e4-8ec5-ecb103b9e834",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Crouch",
+                    "name": "Up",
                     "type": "Button",
-                    "id": "ea1a3e0d-5b18-45fa-993f-cb34ec6653cc",
+                    "id": "eb720eae-0fe4-4ae2-8c6e-bcd580e5f870",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down",
+                    "type": "Button",
+                    "id": "aeb36c34-ac83-477d-afb8-ef46cec116e1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -53,101 +53,79 @@
             ],
             "bindings": [
                 {
+                    "name": "1D Axis",
+                    "id": "9f5b8fe9-b18d-45a0-bf45-b83c50293413",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Horizontal",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "56b9323a-031c-48eb-8f4b-b37259b33831",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "warrior",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "188905cc-c3b1-45c0-a89c-aa571b214a34",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "warrior",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "6863761e-1c6a-4282-904a-577f49957aec",
+                    "id": "2809c1e3-e729-44c7-90c1-fff4511b016f",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PC",
+                    "groups": "",
                     "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "6fd1fc8d-3b51-475f-9e1f-bcf99bfc6c06",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Horizontal",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "2347a3f4-854c-4463-bdbe-2ca27ba145b9",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Horizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "b964f37f-c4da-41c0-b103-20e23d515612",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Horizontal",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "9b22351b-30e6-49db-b593-884b7719616a",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Vertical",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "7ed31620-98b9-46cc-b40d-17d30551e988",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "fb1fd7ad-9025-416c-95e4-7d89fdd20313",
-                    "path": "<Keyboard>/upArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PC",
-                    "action": "Vertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
-                    "id": "a6d51662-e23d-469f-87da-32f58ea60834",
+                    "id": "b35d1bce-c2b4-4d6b-9dbc-659696db240d",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PC",
+                    "groups": "warrior",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "ca8f7d7a-8aad-452b-86c1-2c8588a18e2d",
+                    "id": "10e61cd1-4250-48a5-bee1-b6292dd6c6d6",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "warrior",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c32038bc-380e-4ed1-b3d5-12ad199566ab",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PC",
-                    "action": "Crouch",
+                    "groups": "warrior",
+                    "action": "Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -156,8 +134,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "PC",
-            "bindingGroup": "PC",
+            "name": "warrior",
+            "bindingGroup": "warrior",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",

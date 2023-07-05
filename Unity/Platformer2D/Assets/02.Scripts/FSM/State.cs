@@ -9,6 +9,8 @@ public enum StateType
     DownJump,
     Fall,
     Land,
+    LadderUp,
+    LadderDown,
     Crouch,
     StandUp,
     Attack,
@@ -46,7 +48,7 @@ public abstract class State : IStateEnumerator<StateType>
 
     public abstract StateType MoveNext();
     
-    public void Reset()
+    public virtual void Reset()
     {
         currentStep = IStateEnumerator<StateType>.Step.None;
     }
