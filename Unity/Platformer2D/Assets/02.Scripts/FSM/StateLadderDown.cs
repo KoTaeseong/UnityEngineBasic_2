@@ -79,7 +79,8 @@ public class StateLadderDown : State
                     {
                         //rigidBody.MovePosition(_ladder.ladderTopPos);
                         transform.position = _ladder.ladderTopPos;
-                        next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                        //next = movement.horizontal == 0.0f ? StateType.Idle : StateType.Move;
+                        next = StateType.Fall;
                     }
                     else
                     {

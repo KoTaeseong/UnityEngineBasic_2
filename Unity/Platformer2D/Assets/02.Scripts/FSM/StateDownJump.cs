@@ -2,7 +2,8 @@
 
 public class StateDownJump : State
 {
-    public override bool canExecute => _groundDetector.IsGroundExistBelow() &&
+    public override bool canExecute => _groundDetector.isDetected &&
+                                       _groundDetector.IsGroundExistBelow() &&
                                        machine.currentType == StateType.Crouch;
     private GroundDetector _groundDetector;
 
