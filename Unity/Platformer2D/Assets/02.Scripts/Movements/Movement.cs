@@ -33,10 +33,12 @@ public abstract class Movement : MonoBehaviour
                 transform.eulerAngles = Vector3.zero;
                 _direction = DIRECTION_RIGHT;
             }
+            onDirectionChange?.Invoke(_direction);
         }
     }
 
     private int _direction;
+    public event Action<int> onDirectionChange;
 
     public float horizontal
     {

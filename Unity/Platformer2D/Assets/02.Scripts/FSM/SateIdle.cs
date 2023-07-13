@@ -16,14 +16,16 @@
         {
             case IStateEnumerator<StateType>.Step.None:
                 {
+                    movement.isMoveable = true;
+                    movement.isDirectionChangeable = true;
+                    animator.Play("Idle");
+
                     currentStep++;
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
-                    movement.isMoveable = true;
-                    movement.isDirectionChangeable = true;
-                    animator.Play("Idle");
+                    
                     currentStep++;
                 }
                 break;

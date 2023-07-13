@@ -29,18 +29,13 @@ public class StateLadderUp : State
             case IStateEnumerator<StateType>.Step.None:
                 {
                     _ladder = _ladderDetector.upLadder;
-                    currentStep++;
-                }
-                break;
-            case IStateEnumerator<StateType>.Step.Start:
-                {
+
                     movement.isMoveable = false;
                     movement.isDirectionChangeable = false;
                     rigidBody.bodyType = RigidbodyType2D.Kinematic;
                     rigidBody.velocity = Vector2.zero;
                     animator.speed = 0.0f;
                     animator.Play("Ladder");
-
                     if (_groundDetector.isDetected)
                     {
                         //rigidBody.MovePosition( _ladder.ladderUpStartPos);
@@ -50,6 +45,15 @@ public class StateLadderUp : State
                     {
                         transform.position = new Vector2(_ladder.transform.position.x, rigidBody.position.y);
                     }
+
+                    currentStep++;
+                }
+                break;
+            case IStateEnumerator<StateType>.Step.Start:
+                {
+                    
+
+                    
 
                     currentStep++;
                 }

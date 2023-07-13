@@ -20,14 +20,17 @@ public class StateCrouch : State
         {
             case IStateEnumerator<StateType>.Step.None:
                 {
+
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = true;
+                    animator.Play("CrouchStart");
+
                     currentStep++;
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
-                    movement.isMoveable = false;
-                    movement.isDirectionChangeable = true;
-                    animator.Play("CrouchStart");
+                    
                     currentStep++;
                 }
                 break;

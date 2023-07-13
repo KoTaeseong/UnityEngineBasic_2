@@ -20,17 +20,19 @@ public class StateDownJump : State
         {
             case IStateEnumerator<StateType>.Step.None:
                 {
+                    movement.isMoveable = false;
+                    movement.isDirectionChangeable = true;
+                    animator.Play("Jump");
+                    rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0.0f);
+                    rigidBody.AddForce(Vector2.up * character.downJumpForce, ForceMode2D.Impulse);
+                    _groundDetector.IgnoreLatest(collider);
+
                     currentStep++;
                 }
                 break;
             case IStateEnumerator<StateType>.Step.Start:
                 {
-                    movement.isMoveable = false;
-                    movement.isDirectionChangeable = true;
-                    animator.Play("Jump");
-                    rigidBody.velocity = new Vector2(rigidBody.velocity.x, 0.0f);
-                    rigidBody.AddForce(Vector2.up * character.downJumpForce ,ForceMode2D.Impulse);
-                    _groundDetector.IgnoreLatest(collider);
+                    
                     currentStep++;
                 }
                 break;
