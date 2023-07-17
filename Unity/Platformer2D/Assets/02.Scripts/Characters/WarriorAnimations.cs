@@ -6,7 +6,7 @@ public class WarriorAnimations : PlayerAnimationActions
     [SerializeField] private Vector2 _attackCastSize;
     [SerializeField] private LayerMask _attackTargetMask;
     private Movement _movement;
-
+     
     protected override void Awake()
     {
         base.Awake();
@@ -26,6 +26,7 @@ public class WarriorAnimations : PlayerAnimationActions
             col.TryGetComponent(out IHp ihp))
         {
             ihp.Damage(player.gameObject, player.attackForce);
+	        DamagePopUp.Create(_attackTargetMask, col.transform.position + Vector3.up * 0.2f, ((int)player.attackForce));
         }
     }
 

@@ -12,7 +12,15 @@ public class SingletonMonoBase<T> : MonoBehaviour
         {
             if (_instance == null)
             {
-                _instance = new GameObject(nameof(T)).AddComponent<T>();
+	            T resource = Resources.Load<T>(typeof(T).Name);
+                if (resource != null)
+                {
+                    _instance = Instantiate(resource);
+                }
+                else
+                {
+                    _instance = new GameObject(typeof(T).Name).AddComponent<T>();
+                }
             }
             return _instance;
         }
