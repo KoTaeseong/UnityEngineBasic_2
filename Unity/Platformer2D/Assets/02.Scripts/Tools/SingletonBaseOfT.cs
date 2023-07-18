@@ -5,21 +5,27 @@ using System;
 public class SingletonBase<T>
     where T : SingletonBase<T>
 {
-
+    private static readonly object _spinLock = new object();
     public static T instance
     {
         get
         {
-            if (instance == null)
+            if (_instance == null)
             {
-               //ConstructorInfo constructorInfo = typeof(T).GetConstructor(new Type[] { });
-               //_instance = constructorInfo.Invoke(new object[] { }) as T;
+                lock (_spinLock)
+                {
+                    //ConstructorInfo constructorInfo = typeof(T).GetConstructor(new Type[] { });
+                    //_instance = constructorInfo.Invoke(new object[] { }) as T;
 
-                _instance = Activator.CreateInstance<T>();  //Activator클래스는 위의 연산을 편하게 해준다
+                    _instance = Activator.CreateInstance<T>();  //Activator클래스는 위의 연산을 편하게 해준다
+                    _instance.Init();
+                }
             }
 
             return _instance;
         }
     }
     private static T _instance;
+
+    protected virtual void Init() {}
 }

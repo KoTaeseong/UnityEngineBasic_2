@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class Character : MonoBehaviour, IHp
+public abstract class Character : MonoBehaviour, IHp, IPausable
 {
     [Header("Stats")]
     [SerializeField] public float jumpForce;
@@ -67,6 +67,7 @@ public abstract class Character : MonoBehaviour, IHp
             stateMachine.ChangeState(value == 0.0f ? StateType.Idle : StateType.Move);
         };
 
+        PauseController.instance.Register(this);
         //onHpDecreased += () => stateMachine.ChangeState(StateType.Hurt);
         //onHpMin += stateMachine.ChangeState(StateType.Die);
     }
@@ -84,6 +85,14 @@ public abstract class Character : MonoBehaviour, IHp
     public virtual void Heal(GameObject healer, float amount)
     {
         hp += amount;
+    }
+
+    public void Pause(bool pause)
+    {
+        bool enable = pause == false;
+        enabled = enable;
+        stateMachine.enabled = enable;
+        movement.enabled = enable;
     }
 }
 
