@@ -1,6 +1,10 @@
+using RPG.Collections;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Searcher;
 using UnityEngine;
+
+
 
 namespace RPG.Data
 {
@@ -8,17 +12,28 @@ namespace RPG.Data
     {
         public int id { get; set; }
 
-        public struct itemPair
+        public abstract class ItemSlotData
         {
-            public int id;
-            public int num;
+            public int itemID;
+            public int itemNum;
         }
 
-        public List<itemPair> items;
 
-        public InventoryData(int totalSlot) 
+        public class EquipmentSlotData : ItemSlotData
         {
-            items = new List<itemPair>(totalSlot);
+            public int enhanceLevel;
         }
+        public class SpendSlotData : ItemSlotData
+        {
+
+        }
+        public class ETCSlotData : ItemSlotData
+        {
+
+        }
+
+        public ObservableCollection<EquipmentSlotData> equipmentSlotDatum;
+        public ObservableCollection<SpendSlotData> spendSlotDatum;
+        public ObservableCollection<ETCSlotData> etcSlotDatum;
     }
 }
