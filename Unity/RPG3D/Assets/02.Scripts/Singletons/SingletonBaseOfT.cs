@@ -8,7 +8,7 @@ namespace RPG.Singletons
     public class SingletonBase<T> 
         where T : SingletonBase<T>
     {
-        public T Instnace
+        public static T Instnace
         {
             get
             {
@@ -20,7 +20,7 @@ namespace RPG.Singletons
                 return _instnace;
             }
         }
-        private T _instnace;
+        private static T _instnace;
 
         protected virtual void Init() { }
     }
