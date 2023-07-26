@@ -14,5 +14,8 @@ namespace RPG.UI
 
         void Show();
         void Hide();
+
+        void ShowUnmanaged();
+        void HideUnmanaged();
     }
 }
