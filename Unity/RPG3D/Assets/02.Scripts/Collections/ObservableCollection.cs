@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace RPG.Collections
 {
@@ -54,8 +55,8 @@ namespace RPG.Collections
             onCollectionChanged?.Invoke();
         }
 
-        public bool Remove(T item) 
-        { 
+        public bool Remove(T item)
+        {
             int index = _items.IndexOf(item);
             if (index < 0)
                 return false;

@@ -5,24 +5,23 @@ using UnityEngine;
 
 namespace RPG.Singletons
 {
-    public class SingletonBase<T> 
+    public class SingletonBase<T>
         where T : SingletonBase<T>
     {
-        public static T Instnace
+        public static T instance
         {
             get
             {
-                if (_instnace == null)
+                if (_instance == null)
                 {
-                    _instnace = Activator.CreateInstance<T>();
-                    _instnace.Init();
+                    _instance = Activator.CreateInstance<T>();
+                    _instance.Init();
                 }
-                return _instnace;
+                return _instance;
             }
         }
-        private static T _instnace;
+        private static T _instance;
 
         protected virtual void Init() { }
     }
 }
-

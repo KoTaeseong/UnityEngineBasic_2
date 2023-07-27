@@ -1,12 +1,5 @@
-using RPG.Collections;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Search;
-using UnityEditor.Searcher;
-using UnityEngine;
-
-
+using RPG.Collections;
 
 namespace RPG.Data
 {
@@ -22,7 +15,7 @@ namespace RPG.Data
     {
         public int id { get; set; }
 
-        public  abstract class ItemSlotData : IComparable<ItemSlotData>
+        public abstract class ItemSlotData : IComparable<ItemSlotData>
         {
             public int itemID;
             public int itemNum;
@@ -40,7 +33,6 @@ namespace RPG.Data
                 }
             }
         }
-
 
         public class EquipmentSlotData : ItemSlotData
         {
@@ -60,10 +52,12 @@ namespace RPG.Data
                 }
             }
         }
+
         public class SpendSlotData : ItemSlotData
         {
 
         }
+
         public class ETCSlotData : ItemSlotData
         {
 

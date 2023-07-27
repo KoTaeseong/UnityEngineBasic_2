@@ -13,4 +13,3 @@ namespace RPG.Collections
         event Action onCollectionChanged;
     }
 }
-

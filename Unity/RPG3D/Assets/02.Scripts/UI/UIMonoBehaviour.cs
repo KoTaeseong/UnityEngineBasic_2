@@ -18,9 +18,9 @@ namespace RPG.UI
         [SerializeField] private bool hideWhenClickOutside;
 
         public int sortingOrder 
-        { 
+        {
             get => canvas.sortingOrder;
-            set => canvas.sortingOrder = value; 
+            set => canvas.sortingOrder = value;
         }
 
         public event Action onShow;
@@ -30,7 +30,7 @@ namespace RPG.UI
         {
             manager.Push(this);
             gameObject.SetActive(true);
-            onShow?.Invoke();   
+            onShow?.Invoke();
         }
 
         public void Hide()
@@ -54,8 +54,8 @@ namespace RPG.UI
 
         protected virtual void Awake()
         {
-            canvas= GetComponent<Canvas>();
-            manager = UIManager.Instnace;
+            canvas = GetComponent<Canvas>();
+            manager = UIManager.instance;
             manager.Register(this);
 
             if (hideWhenClickOutside)
@@ -63,7 +63,7 @@ namespace RPG.UI
                 GameObject panel = new GameObject();
                 Image image = panel.AddComponent<Image>();
                 image.color = new Color(0.0f, 0.0f, 0.0f, 0.5f);
-
+                               
                 panel.transform.SetParent(transform);
                 panel.transform.SetAsFirstSibling();
 
@@ -73,10 +73,11 @@ namespace RPG.UI
                 rect.pivot = new Vector2(0.5f, 0.5f);
                 rect.offsetMin = Vector2.zero;
                 rect.offsetMax = Vector2.zero;
+                rect.sizeDelta = Vector2.zero;
 
                 EventTrigger eventTrigger = panel.AddComponent<EventTrigger>();
                 EventTrigger.Entry entry = new EventTrigger.Entry();
-                entry.eventID = EventTriggerType.PointerClick;
+                entry.eventID = EventTriggerType.PointerDown;
                 entry.callback.AddListener(data => Hide());
                 eventTrigger.triggers.Add(entry);
             }

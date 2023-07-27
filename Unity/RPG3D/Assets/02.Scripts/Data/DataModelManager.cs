@@ -2,9 +2,7 @@ using RPG.Singletons;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
-
 
 namespace RPG.Data
 {
@@ -14,13 +12,13 @@ namespace RPG.Data
         Inventory,
     }
 
-    //Repository pattern (design pattern)
+    // Repository pattern 
     public class DataModelManager : SingletonBase<DataModelManager>
     {
         private Dictionary<Type, IDataModel> _dataModelsByType;
         private Dictionary<DataCategory, IDataModel> _dataModelsByCategory;
 
-        public  bool TryGet<T>(out T dataModel)
+        public bool TryGet<T>(out T dataModel)
         {
             if (_dataModelsByType.TryGetValue(typeof(T), out IDataModel result))
             {
@@ -37,11 +35,12 @@ namespace RPG.Data
             return _dataModelsByCategory.TryGetValue(category, out dataModel);
         }
 
+
         public void Register<T>(DataCategory category)
             where T : IDataModel
         {
             if (_dataModelsByType.ContainsKey(typeof(T)))
-                throw new Exception($"[DataModelManager] : Failed to register. {typeof(T)} is already exist");
+                throw new Exception($"[DataModelManager] : Failed to register. {typeof(T)} is already exist. ");
 
             T dataModel = Activator.CreateInstance<T>();
             _dataModelsByType.Add(typeof(T), dataModel);
@@ -58,4 +57,3 @@ namespace RPG.Data
         }
     }
 }
-

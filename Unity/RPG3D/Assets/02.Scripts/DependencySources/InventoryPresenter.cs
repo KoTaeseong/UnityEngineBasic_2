@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using System;
 using RPG.Collections;
 using RPG.Data;
-using UnityEditor.UIElements;
+using System;
+using System.Linq;
+using UnityEngine;
 
-namespace RPG.DependencySources 
+namespace RPG.DependencySources
 {
-    public class InventoryPresenter 
+    public class InventoryPresenter
     {
-
         public class InventorySource
         {
             public ObservableCollection<InventoryData.EquipmentSlotData> equipmentSlotDatum;
@@ -20,94 +16,90 @@ namespace RPG.DependencySources
 
             public InventorySource()
             {
-                if(DataModelManager.Instnace.TryGet(out InventoryData source))
+                if (DataModelManager.instance.TryGet(out InventoryData source))
                 {
-                    foreach (var slotData in source.equipmentSlotDatum)
+                    equipmentSlotDatum = new ObservableCollection<InventoryData.EquipmentSlotData>(source.equipmentSlotDatum);
+                    source.equipmentSlotDatum.onItemChanged += (slotIndex, slotData) =>
                     {
-                        equipmentSlotDatum = new ObservableCollection<InventoryData.EquipmentSlotData>(source.equipmentSlotDatum);
-                        source.equipmentSlotDatum.onItemChanged += (slotIndex, slotData) =>
+                        equipmentSlotDatum[slotIndex] = slotData;
+                    };
+                    source.equipmentSlotDatum.onItemAdded += (slotIndex, slotData) =>
+                    {
+                        if (equipmentSlotDatum.Count == slotIndex)
+                            equipmentSlotDatum.Add(slotData);
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
+                    };
+                    source.equipmentSlotDatum.onItemRemoved += (slotIndex, slotData) =>
+                    {
+                        if (equipmentSlotDatum.Count == source.equipmentSlotDatum.Count + 1)
                         {
-                            equipmentSlotDatum[slotIndex] = slotData;
-                        };
-                        source.equipmentSlotDatum.onItemAdded += (slotIndex, slotData) =>
-                        {
-                            if (equipmentSlotDatum.Count == slotIndex)
-                                equipmentSlotDatum.Add(slotData);
-                            else
-                                throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
-                        };
-                        source.equipmentSlotDatum.onItemRemoved += (slotIndex, slotData) =>
-                        {
-                            if (equipmentSlotDatum.Count == source.equipmentSlotDatum.Count + 1)
-                            {
-                                if (equipmentSlotDatum[slotIndex].CompareTo(slotData) == 0)
-                                    equipmentSlotDatum.RemoveAt(slotIndex);
-                                else
-                                    throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                            }
+                            if (equipmentSlotDatum[slotIndex].CompareTo(slotData) == 0)
+                                equipmentSlotDatum.RemoveAt(slotIndex);
                             else
                                 throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                        };
+                        }
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
+                    };
 
-                        spendSlotDatum = new ObservableCollection<InventoryData.SpendSlotData>(source.spendSlotDatum);
-                        source.spendSlotDatum.onItemChanged += (slotIndex, slotData) =>
+                    spendSlotDatum = new ObservableCollection<InventoryData.SpendSlotData>(source.spendSlotDatum);
+                    source.spendSlotDatum.onItemChanged += (slotIndex, slotData) =>
+                    {
+                        spendSlotDatum[slotIndex] = slotData;
+                    };
+                    source.spendSlotDatum.onItemAdded += (slotIndex, slotData) =>
+                    {
+                        if (spendSlotDatum.Count == slotIndex)
+                            spendSlotDatum.Add(slotData);
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
+                    };
+                    source.spendSlotDatum.onItemRemoved += (slotIndex, slotData) =>
+                    {
+                        if (spendSlotDatum.Count == source.spendSlotDatum.Count + 1)
                         {
-                            spendSlotDatum[slotIndex] = slotData;
-                        };
-                        source.spendSlotDatum.onItemAdded += (slotIndex, slotData) =>
-                        {
-                            if (spendSlotDatum.Count == slotIndex)
-                                spendSlotDatum.Add(slotData);
-                            else
-                                throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
-                        };
-                        source.spendSlotDatum.onItemRemoved += (slotIndex, slotData) =>
-                        {
-                            if (spendSlotDatum.Count == source.spendSlotDatum.Count + 1)
-                            {
-                                if (spendSlotDatum[slotIndex].CompareTo(slotData) == 0)
-                                    spendSlotDatum.RemoveAt(slotIndex);
-                                else
-                                    throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                            }
+                            if (spendSlotDatum[slotIndex].CompareTo(slotData) == 0)
+                                spendSlotDatum.RemoveAt(slotIndex);
                             else
                                 throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                        };
+                        }
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
+                    };
 
-                        etcSlotDatum = new ObservableCollection<InventoryData.ETCSlotData>(source.etcSlotDatum);
-                        source.etcSlotDatum.onItemChanged += (slotIndex, slotData) =>
+                    etcSlotDatum = new ObservableCollection<InventoryData.ETCSlotData>(source.etcSlotDatum);
+                    source.etcSlotDatum.onItemChanged += (slotIndex, slotData) =>
+                    {
+                        etcSlotDatum[slotIndex] = slotData;
+                    };
+                    source.etcSlotDatum.onItemAdded += (slotIndex, slotData) =>
+                    {
+                        if (etcSlotDatum.Count == slotIndex)
+                            etcSlotDatum.Add(slotData);
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
+                    };
+                    source.etcSlotDatum.onItemRemoved += (slotIndex, slotData) =>
+                    {
+                        if (etcSlotDatum.Count == source.etcSlotDatum.Count + 1)
                         {
-                            etcSlotDatum[slotIndex] = slotData;
-                        };
-                        source.etcSlotDatum.onItemAdded += (slotIndex, slotData) =>
-                        {
-                            if (etcSlotDatum.Count == slotIndex)
-                                etcSlotDatum.Add(slotData);
-                            else
-                                throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to add item, data is unmatched");
-                        };
-                        source.etcSlotDatum.onItemRemoved += (slotIndex, slotData) =>
-                        {
-                            if (etcSlotDatum.Count == source.etcSlotDatum.Count + 1)
-                            {
-                                if (etcSlotDatum[slotIndex].CompareTo(slotData) == 0)
-                                    etcSlotDatum.RemoveAt(slotIndex);
-                                else
-                                    throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                            }
+                            if (etcSlotDatum[slotIndex].CompareTo(slotData) == 0)
+                                etcSlotDatum.RemoveAt(slotIndex);
                             else
                                 throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
-                        };
-                    }
+                        }
+                        else
+                            throw new System.Exception("[InventoryPresenter.InventorySource] : Failed to remove item, data is unmatched");
+                    };
                 }
                 else
                 {
-                    throw new System.Exception($"[InventoryData.InventorySource] : Failed to initailize sources");
+                    throw new System.Exception($"[InventoryData.InventorySource] : Failed to initailize sources.");
                 }
             }
         }
         public InventorySource inventorySource;
-
 
         public class SwapCommand
         {
@@ -117,12 +109,11 @@ namespace RPG.DependencySources
             public SwapCommand(InventoryPresenter presenter)
             {
                 _presenter = presenter;
-                if(DataModelManager.Instnace.TryGet(out _inventoryData) == false)
-                    throw new System.Exception("[InventroyPresenter.SwapCommand] : Failed to cache inventory data model");
-
+                if (DataModelManager.instance.TryGet(out _inventoryData) == false)
+                    throw new System.Exception("[InventoryPresenter.SwapCommand] : Failed to cache inventory data model");
             }
 
-            public bool CanExecute(ItemType type, int slotIndex1,int slotIndex2)
+            public bool CanExecute(ItemType type, int slotIndex1, int slotIndex2)
             {
                 if (slotIndex1 == slotIndex2)
                     return false;
@@ -133,23 +124,20 @@ namespace RPG.DependencySources
                         {
                             int count = _presenter.inventorySource.equipmentSlotDatum.Count;
                             return slotIndex1 < count &&
-                                slotIndex2 < count;
+                                   slotIndex2 < count;
                         }
-                        break;
                     case ItemType.Spend:
                         {
                             int count = _presenter.inventorySource.spendSlotDatum.Count;
                             return slotIndex1 < count &&
-                                slotIndex2 < count;
-                        }
-                        break;
+                                   slotIndex2 < count;
+                        }                        
                     case ItemType.ETC:
                         {
                             int count = _presenter.inventorySource.etcSlotDatum.Count;
                             return slotIndex1 < count &&
-                                slotIndex2 < count;
+                                   slotIndex2 < count;
                         }
-                        break;
                     default:
                         throw new System.Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
                 }
@@ -175,18 +163,18 @@ namespace RPG.DependencySources
                         }
                         break;
                     default:
-                        throw new System.Exception("[InventroyPresenter.SwapCommand] : Wrong item type");
+                        throw new System.Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
                 }
             }
 
             public bool TryExecute(ItemType type, int slotIndex1, int slotIndex2)
             {
-                if (CanExecute(type, slotIndex1, slotIndex2)) 
+                if (CanExecute(type, slotIndex1, slotIndex2))
                 {
                     Execute(type, slotIndex1, slotIndex2);
                     return true;
                 }
-                
+
                 return false;
             }
         }
@@ -200,23 +188,23 @@ namespace RPG.DependencySources
             public DropCommand(InventoryPresenter presenter)
             {
                 _presenter = presenter;
-                if (DataModelManager.Instnace.TryGet(out _inventoryData) == false)
-                    throw new System.Exception("[InventroyPresenter.SwapCommand] : Failed to cache inventory data model");
+                if (DataModelManager.instance.TryGet(out _inventoryData) == false)
+                    throw new Exception("[InventoryPresenter.SwapCommand] : Failed to cache inventory data model");
             }
 
             public bool CanExecute(ItemType type, int slotIndex, int num)
             {
-                if (slotIndex < 0 || num < 0)
+                if (slotIndex < 0 ||
+                    num < 0)
                     return false;
 
-                ObservableCollection<InventoryData.ItemSlotData> datum;
                 switch (type)
                 {
                     case ItemType.Equipment:
                         {
                             if (slotIndex >= _presenter.inventorySource.equipmentSlotDatum.Count)
-                                //throw new System.IndexOutOfRangeException();
                                 return false;
+
                             if (num > _presenter.inventorySource.equipmentSlotDatum[slotIndex].itemNum)
                                 return false;
                         }
@@ -224,8 +212,8 @@ namespace RPG.DependencySources
                     case ItemType.Spend:
                         {
                             if (slotIndex >= _presenter.inventorySource.spendSlotDatum.Count)
-                                //throw new System.IndexOutOfRangeException();
                                 return false;
+
                             if (num > _presenter.inventorySource.spendSlotDatum[slotIndex].itemNum)
                                 return false;
                         }
@@ -233,14 +221,14 @@ namespace RPG.DependencySources
                     case ItemType.ETC:
                         {
                             if (slotIndex >= _presenter.inventorySource.etcSlotDatum.Count)
-                                //throw new System.IndexOutOfRangeException();
                                 return false;
+
                             if (num > _presenter.inventorySource.etcSlotDatum[slotIndex].itemNum)
                                 return false;
                         }
                         break;
                     default:
-                        throw new System.Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
+                        throw new Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
                 }
 
                 return true;
@@ -257,8 +245,8 @@ namespace RPG.DependencySources
                                                                      new InventoryData.EquipmentSlotData()
                                                                      {
                                                                          enhanceLevel = slotData.enhanceLevel,
-                                                                         itemID= slotData.itemID,
-                                                                         itemNum= slotData.itemNum - num,
+                                                                         itemID = slotData.itemID,
+                                                                         itemNum = slotData.itemNum - num
                                                                      });
                         }
                         break;
@@ -266,29 +254,29 @@ namespace RPG.DependencySources
                         {
                             InventoryData.SpendSlotData slotData = _presenter.inventorySource.spendSlotDatum[slotIndex];
                             _inventoryData.spendSlotDatum.Change(slotIndex,
-                                                                     new InventoryData.SpendSlotData()
-                                                                     {
-                                                                         itemID = slotData.itemID,
-                                                                         itemNum = slotData.itemNum - num,
-                                                                     });
+                                                                 new InventoryData.SpendSlotData()
+                                                                 {
+                                                                     itemID = slotData.itemID,
+                                                                     itemNum = slotData.itemNum - num
+                                                                 });
                         }
                         break;
                     case ItemType.ETC:
                         {
                             InventoryData.ETCSlotData slotData = _presenter.inventorySource.etcSlotDatum[slotIndex];
                             _inventoryData.etcSlotDatum.Change(slotIndex,
-                                                                     new InventoryData.ETCSlotData()
-                                                                     {
-                                                                         itemID = slotData.itemID,
-                                                                         itemNum = slotData.itemNum - num,
-                                                                     });
+                                                               new InventoryData.ETCSlotData()
+                                                               {
+                                                                   itemID = slotData.itemID,
+                                                                   itemNum = slotData.itemNum - num
+                                                               });
                         }
                         break;
                     default:
-                        throw new System.Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
+                        throw new Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
                 }
 
-                // todo -> Battle field俊 瞒皑等 item 积己
+                // todo -> Battle field 俊 Item 积己
             }
 
             public bool TryExecute(ItemType type, int slotIndex, int num)
@@ -298,6 +286,7 @@ namespace RPG.DependencySources
                     Execute(type, slotIndex, num);
                     return true;
                 }
+
                 return false;
             }
         }
@@ -306,12 +295,13 @@ namespace RPG.DependencySources
         public class UseCommand
         {
             private InventoryPresenter _presenter;
-            public UseCommand(InventoryPresenter presenter) 
-            { 
+
+            public UseCommand(InventoryPresenter presenter)
+            {
                 _presenter = presenter;
             }
 
-            public bool CanExecute(ItemType type, int slotIndex) 
+            public bool CanExecute(ItemType type, int slotIndex)
             {
                 return true;
             }
@@ -321,16 +311,16 @@ namespace RPG.DependencySources
 
             }
 
-            public bool TryExecute(ItemType type, int slotIndex, int num)
+            public bool TryExecute(ItemType type, int slotIndex)
             {
-                if (CanExecute(type,slotIndex))
+                if (CanExecute(type, slotIndex))
                 {
                     Execute(type, slotIndex);
                     return true;
                 }
+
                 return false;
             }
-
         }
         public UseCommand useCommand;
 
@@ -343,4 +333,3 @@ namespace RPG.DependencySources
         }
     }
 }
-

@@ -9,7 +9,7 @@ namespace RPG.UI
 {
     public class UIManager : SingletonBase<UIManager>
     {
-        public Dictionary<Type,IUI> uis = new Dictionary<Type,IUI>();
+        public Dictionary<Type, IUI> uis = new Dictionary<Type, IUI>();
         public LinkedList<IUI> uisShown = new LinkedList<IUI>();
 
         public void Register(IUI ui)
@@ -20,7 +20,7 @@ namespace RPG.UI
 
         public bool TryGet<T>(out T ui) where T : IUI
         {
-            if(uis.TryGetValue(typeof(T),out IUI value))
+            if (uis.TryGetValue(typeof(T), out IUI value))
             {
                 ui = (T)value;
                 return true;
@@ -35,7 +35,7 @@ namespace RPG.UI
             if (uisShown.Last.Value == ui)
                 return;
 
-            int sortingOrder = uis.Count > 1 ?  uisShown.Last.Value.sortingOrder: 0;
+            int sortingOrder = uis.Count > 1 ? uisShown.Last.Value.sortingOrder : 0;
             uisShown.Remove(ui);
             uisShown.AddLast(ui);
             ui.sortingOrder = sortingOrder;
@@ -50,6 +50,7 @@ namespace RPG.UI
         {
             if (uisShown.Count <= 0)
                 return;
+
             uisShown.Last.Value.Hide();
         }
     }
