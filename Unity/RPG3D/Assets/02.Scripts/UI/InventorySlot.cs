@@ -25,7 +25,7 @@ namespace RPG.UI
                 _icon.sprite = null;
                 _num.text = string.Empty;
             }
-            _icon.sprite = ItemDataRepository.instance[itemID].icon;
+            //_icon.sprite = ItemDataRepository.instance[itemID].icon;
         }
     }
 
