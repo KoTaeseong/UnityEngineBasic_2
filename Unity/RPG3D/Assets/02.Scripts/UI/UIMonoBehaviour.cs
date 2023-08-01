@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RPG.EventSystems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,12 @@ namespace RPG.UI
     [RequireComponent(typeof(Canvas))]
     public class UIMonoBehaviour : MonoBehaviour, IUI
     {
+        public bool inputActionEnalbed { get; set; }
         protected UIManager manager;
         protected Canvas canvas;
         [Header("Options")]
         [SerializeField] private bool hideWhenClickOutside;
+        protected CustomInputModule inputModule;
 
         public int sortingOrder 
         {
@@ -86,6 +89,17 @@ namespace RPG.UI
                 entry.callback.AddListener(data => Hide());
                 eventTrigger.triggers.Add(entry);
             }
+        }
+
+        protected virtual void Start()
+        {
+            inputModule = CustomInputModule.main;
+        }
+
+        protected virtual void Update()
+        {
+            if (inputActionEnalbed)
+                InputAction();
         }
     }
 }

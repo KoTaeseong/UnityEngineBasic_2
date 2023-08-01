@@ -36,9 +36,15 @@ namespace RPG.UI
                 uisShown.Last.Value == ui)
                 return;
 
-            int sortingOrder = uis.Count > 1 ? (uisShown.Last?.Value.sortingOrder ?? 0) : 0; //??: null 병합연산자
+            int sortingOrder = 0;
+            if (uisShown.Last != null)
+            {
+                uisShown.Last.Value.inputActionEnalbed = false;
+                sortingOrder = uisShown.Last.Value.sortingOrder;
+            }
             uisShown.Remove(ui);
             uisShown.AddLast(ui);
+            ui.inputActionEnalbed = true;
             ui.sortingOrder = sortingOrder;
         }
 

@@ -642,7 +642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1265,7 +1265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &536902029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,7 +1633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &660756216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,7 +1734,6 @@ MonoBehaviour:
   _etcContent: {fileID: 786449886}
   _slotPrefab: {fileID: 7155535929528140989, guid: bdb11174c8bb94b47a4e0baf673d8bc0,
     type: 3}
-  _inputModule: {fileID: 505413271}
 --- !u!1 &682855496
 GameObject:
   m_ObjectHideFlags: 0

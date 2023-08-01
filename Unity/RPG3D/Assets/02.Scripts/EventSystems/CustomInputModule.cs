@@ -7,6 +7,14 @@ namespace RPG.EventSystems
 {
     public class CustomInputModule : StandaloneInputModule
     {
+        public static CustomInputModule main;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            main = this;
+        }
+
         public bool TryGetHovered<T,K>(out K hovered, int mouseID = kMouseLeftId)
             where T : BaseRaycaster
         {

@@ -12,7 +12,7 @@ namespace RPG.UI
 {
     public class InventoryUI : UIMonoBehaviour
     {
-        private InventoryPresenter _presenter;
+        public InventoryPresenter presenter;
         [SerializeField] private Transform _equipmentContent;
         [SerializeField] private Transform _spendContent;
         [SerializeField] private Transform _etcContent;
@@ -20,7 +20,7 @@ namespace RPG.UI
         private List<InventorySlot> _equipmentSlots = new List<InventorySlot>();
         private List<InventorySlot> _spendSlots = new List<InventorySlot>();
         private List<InventorySlot> _etcSlots = new List<InventorySlot>();
-        [SerializeField] private CustomInputModule _inputModule;
+        
 
         public override void InputAction()
         {
@@ -29,23 +29,23 @@ namespace RPG.UI
 
             if (Input.GetMouseButtonDown(0))
             {
-                if (_inputModule.TryGetHovered<GraphicRaycaster, InventorySlot>(out slot))
+                if (inputModule.TryGetHovered<GraphicRaycaster, InventorySlot>(out slot))
                 {
                     Debug.Log($"Left clicked on inventory slot {slot.slotIndex}");
 
-                    if (UIManager.instance.TryGet(out InventorySlotPicker picker))
+                    if (UIManager.instance.TryGet(out InventorySlotPickerUI picker))
                     {
-                        picker.Show(slot.itemType, slot.slotIndex, _presenter.inventorySource.GetSlotData(slot.itemType,slot.slotIndex));
+                        picker.Show(slot.itemType, slot.slotIndex, presenter.inventorySource.GetSlotData(slot.itemType,slot.slotIndex));
                     }
                 }
             }
             else if(Input.GetMouseButtonDown(1))
             {
-                if (_inputModule.TryGetHovered<GraphicRaycaster, InventorySlot>(out slot))
+                if (inputModule.TryGetHovered<GraphicRaycaster, InventorySlot>(out slot))
                 {
                     Debug.Log($"Right clicked on inventory slot {slot.slotIndex}");
 
-                    InventoryData.ItemSlotData slotData = _presenter.inventorySource.GetSlotData(slot.itemType, slot.slotIndex);
+                    InventoryData.ItemSlotData slotData = presenter.inventorySource.GetSlotData(slot.itemType, slot.slotIndex);
                     if (slotData.isEmpty == false &&
                         ItemDataRepository.instance.items.TryGetValue(slotData.itemID, out ItemData itemData) &&
                         itemData is UsableItemData)
@@ -61,11 +61,11 @@ namespace RPG.UI
         protected override void Awake()
         {
             base.Awake();
-            _presenter = new InventoryPresenter();
+            presenter = new InventoryPresenter();
 
             InventorySlot slot;
 
-            var equipmentDatum = _presenter.inventorySource.equipmentSlotDatum;
+            var equipmentDatum = presenter.inventorySource.equipmentSlotDatum;
             for (int i = 0; i < equipmentDatum.Count; i++)
             {
                 slot =Instantiate(_slotPrefab, _equipmentContent);
@@ -80,7 +80,7 @@ namespace RPG.UI
                 _equipmentSlots[slotIndex].Refresh(itemPair.itemID, itemPair.itemNum);
             };
 
-            var spendDatum = _presenter.inventorySource.spendSlotDatum;
+            var spendDatum = presenter.inventorySource.spendSlotDatum;
             for (int i = 0; i < spendDatum.Count; i++)
             {
                 slot = Instantiate(_slotPrefab, _spendContent);
@@ -95,7 +95,7 @@ namespace RPG.UI
                 _spendSlots[slotIndex].Refresh(itemPair.itemID, itemPair.itemNum);
             };
 
-            var etcDatum = _presenter.inventorySource.etcSlotDatum;
+            var etcDatum = presenter.inventorySource.etcSlotDatum;
             for (int i = 0; i < etcDatum.Count; i++)
             {
                 slot = Instantiate(_slotPrefab, _etcContent);
@@ -111,11 +111,7 @@ namespace RPG.UI
             };
         }
 
-        private void Update()
-        {
-            InputAction();
-        }
-
+        
     }
 }
 
