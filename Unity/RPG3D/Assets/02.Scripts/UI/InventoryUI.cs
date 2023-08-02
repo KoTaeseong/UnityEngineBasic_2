@@ -32,10 +32,11 @@ namespace RPG.UI
                 if (inputModule.TryGetHovered<GraphicRaycaster, InventorySlot>(out slot))
                 {
                     Debug.Log($"Left clicked on inventory slot {slot.slotIndex}");
-
-                    if (UIManager.instance.TryGet(out InventorySlotPickerUI picker))
+                    InventoryData.ItemSlotData slotData = presenter.inventorySource.GetSlotData(slot.itemType, slot.slotIndex);
+                    if (slotData.itemNum > 0 &&
+                        UIManager.instance.TryGet(out InventorySlotPickerUI picker))
                     {
-                        picker.Show(slot.itemType, slot.slotIndex, presenter.inventorySource.GetSlotData(slot.itemType,slot.slotIndex));
+                        picker.Show(slot.itemType, slot.slotIndex, slotData);
                     }
                 }
             }

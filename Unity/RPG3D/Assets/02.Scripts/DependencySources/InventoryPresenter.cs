@@ -259,9 +259,9 @@ namespace RPG.DependencySources
                             _inventoryData.equipmentSlotDatum.Change(slotIndex,
                                                                      new InventoryData.EquipmentSlotData()
                                                                      {
-                                                                         enhanceLevel = slotData.enhanceLevel,
-                                                                         itemID = slotData.itemID,
-                                                                         itemNum = slotData.itemNum - num
+                                                                         enhanceLevel = (slotData.itemNum - num) > 0 ? slotData.enhanceLevel : 0,
+                                                                         itemID = (slotData.itemNum - num) > 0 ? slotData.itemID : 0,
+                                                                         itemNum = (slotData.itemNum - num) > 0 ? slotData.itemNum - num : 0
                                                                      });
                         }
                         break;
@@ -271,8 +271,8 @@ namespace RPG.DependencySources
                             _inventoryData.spendSlotDatum.Change(slotIndex,
                                                                  new InventoryData.SpendSlotData()
                                                                  {
-                                                                     itemID = slotData.itemID,
-                                                                     itemNum = slotData.itemNum - num
+                                                                     itemID = (slotData.itemNum - num) > 0 ? slotData.itemID : 0,
+                                                                     itemNum = (slotData.itemNum - num) > 0 ? slotData.itemNum - num : 0
                                                                  });
                         }
                         break;
@@ -282,8 +282,8 @@ namespace RPG.DependencySources
                             _inventoryData.etcSlotDatum.Change(slotIndex,
                                                                new InventoryData.ETCSlotData()
                                                                {
-                                                                   itemID = slotData.itemID,
-                                                                   itemNum = slotData.itemNum - num
+                                                                   itemID = (slotData.itemNum - num) > 0 ? slotData.itemID : 0,
+                                                                   itemNum = (slotData.itemNum - num) > 0 ?slotData.itemNum - num : 0
                                                                });
                         }
                         break;

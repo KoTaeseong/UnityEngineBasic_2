@@ -64,10 +64,11 @@ namespace RPG.Data
                 System.IO.File.WriteAllText(dataPath,JsonUtility.ToJson(data));
             }
 
+            data.Init();
             return data;
         }
 
-        public void Save<T>(T data)
+        public void Save<T>()
             where T : IDataModel
         {
             string dataPath = $"{Application.persistentDataPath}/{typeof(T).Name}.json";
