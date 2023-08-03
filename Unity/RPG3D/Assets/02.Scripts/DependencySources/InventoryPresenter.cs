@@ -1,5 +1,7 @@
 using RPG.Collections;
+using RPG.Controllers;
 using RPG.Data;
+using RPG.GameElements;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -251,11 +253,13 @@ namespace RPG.DependencySources
 
             public void Execute(ItemType type, int slotIndex, int num)
             {
+                int itemID;
                 switch (type)
                 {
                     case ItemType.Equipment:
                         {
                             InventoryData.EquipmentSlotData slotData = _presenter.inventorySource.equipmentSlotDatum[slotIndex];
+                            itemID= slotData.itemNum;
                             _inventoryData.equipmentSlotDatum.Change(slotIndex,
                                                                      new InventoryData.EquipmentSlotData()
                                                                      {
@@ -268,6 +272,7 @@ namespace RPG.DependencySources
                     case ItemType.Spend:
                         {
                             InventoryData.SpendSlotData slotData = _presenter.inventorySource.spendSlotDatum[slotIndex];
+                            itemID= slotData.itemNum;
                             _inventoryData.spendSlotDatum.Change(slotIndex,
                                                                  new InventoryData.SpendSlotData()
                                                                  {
@@ -279,6 +284,7 @@ namespace RPG.DependencySources
                     case ItemType.ETC:
                         {
                             InventoryData.ETCSlotData slotData = _presenter.inventorySource.etcSlotDatum[slotIndex];
+                            itemID= slotData.itemNum;
                             _inventoryData.etcSlotDatum.Change(slotIndex,
                                                                new InventoryData.ETCSlotData()
                                                                {
@@ -292,6 +298,8 @@ namespace RPG.DependencySources
                 }
 
                 // todo -> Battle field ¿¡ Item »ý¼º
+                if (ControllerManager.instance.TryGet(out PlayerController player))
+                    ItemDropped.Create(itemID, num, player.transform.position);
             }
 
             public bool TryExecute(ItemType type, int slotIndex, int num)

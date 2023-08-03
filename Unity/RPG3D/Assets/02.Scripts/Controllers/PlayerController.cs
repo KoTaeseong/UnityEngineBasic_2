@@ -4,18 +4,8 @@ using UnityEngine;
 
 namespace RPG.Controllers
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : ControllerBase
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        
     }
 }
