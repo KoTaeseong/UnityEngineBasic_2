@@ -1,4 +1,4 @@
-using RPG.Collections;
+Ôªøusing RPG.Collections;
 using RPG.Controllers;
 using RPG.Data;
 using RPG.GameElements;
@@ -30,6 +30,7 @@ namespace RPG.DependencySources
                         throw new Exception("[InventoryPresenter.InventorySource] : Wrong item type");
                 }
             }
+
 
             public InventorySource()
             {
@@ -148,7 +149,7 @@ namespace RPG.DependencySources
                             int count = _presenter.inventorySource.spendSlotDatum.Count;
                             return slotIndex1 < count &&
                                    slotIndex2 < count;
-                        }                        
+                        }
                     case ItemType.ETC:
                         {
                             int count = _presenter.inventorySource.etcSlotDatum.Count;
@@ -259,7 +260,7 @@ namespace RPG.DependencySources
                     case ItemType.Equipment:
                         {
                             InventoryData.EquipmentSlotData slotData = _presenter.inventorySource.equipmentSlotDatum[slotIndex];
-                            itemID= slotData.itemNum;
+                            itemID = slotData.itemID;
                             _inventoryData.equipmentSlotDatum.Change(slotIndex,
                                                                      new InventoryData.EquipmentSlotData()
                                                                      {
@@ -272,7 +273,7 @@ namespace RPG.DependencySources
                     case ItemType.Spend:
                         {
                             InventoryData.SpendSlotData slotData = _presenter.inventorySource.spendSlotDatum[slotIndex];
-                            itemID= slotData.itemNum;
+                            itemID = slotData.itemID;
                             _inventoryData.spendSlotDatum.Change(slotIndex,
                                                                  new InventoryData.SpendSlotData()
                                                                  {
@@ -284,12 +285,12 @@ namespace RPG.DependencySources
                     case ItemType.ETC:
                         {
                             InventoryData.ETCSlotData slotData = _presenter.inventorySource.etcSlotDatum[slotIndex];
-                            itemID= slotData.itemNum;
+                            itemID = slotData.itemID;
                             _inventoryData.etcSlotDatum.Change(slotIndex,
                                                                new InventoryData.ETCSlotData()
                                                                {
                                                                    itemID = (slotData.itemNum - num) > 0 ? slotData.itemID : 0,
-                                                                   itemNum = (slotData.itemNum - num) > 0 ?slotData.itemNum - num : 0
+                                                                   itemNum = (slotData.itemNum - num) > 0 ? slotData.itemNum - num : 0
                                                                });
                         }
                         break;
@@ -297,9 +298,9 @@ namespace RPG.DependencySources
                         throw new Exception("[InventoryPresenter.SwapCommand] : Wrong item type");
                 }
 
-                // todo -> Battle field ø° Item ª˝º∫
+                // Battle field Ïóê Item ÏÉàÏÑ±
                 if (ControllerManager.instance.TryGet(out PlayerController player))
-                    ItemDropped.Create(itemID, num, player.transform.position);
+                    ItemDropped.Create(itemID, num, player.transform.position + Vector3.up);
             }
 
             public bool TryExecute(ItemType type, int slotIndex, int num)

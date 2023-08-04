@@ -48,4 +48,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ee1e8106a4b03d4b898aa2b77c0f956, type: 2}
   - {fileID: 11400000, guid: cac4c51630e9fe04fbd750c71550c4e5, type: 2}
   _spendItemDatum: []
-  _etcItemDatum: []
+  _etcItemDatum:
+  - {fileID: 11400000, guid: c0afc3ed6342bd44283e27918c0a0f57, type: 2}
