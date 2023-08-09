@@ -88,10 +88,8 @@ namespace RPG.GameElements
         /// </summary>
         /// <returns> remains </return>
         private int FillInventoryData<T>(ObservableCollection<T> slotDatum, ItemData itemData)
-            where T : InventoryData.ItemSlotData
+        where T : InventoryData.ItemSlotData
         {
-            
-
             int remains = _itemNum;
 
             for (int i = 0; i < slotDatum.Count; i++)
@@ -111,6 +109,7 @@ namespace RPG.GameElements
                     }
                     else
                     {
+                        slotData.itemID = itemData.id;
                         slotData.itemNum = slotData.itemNum + remains;
                         slotDatum[i] = slotData;
                         remains = 0;
