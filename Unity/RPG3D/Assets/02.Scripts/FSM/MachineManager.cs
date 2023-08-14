@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.XR;
 
 namespace RPG.FSM
@@ -32,11 +33,14 @@ namespace RPG.FSM
 
         public Vector3 move;
         public float moveGain;
+        public float horizontal;
+        public float vertical;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _groundCastMaxDistance;
 
         private Vector3 _inertia;
         private Rigidbody _rigidbody;
+        private bool _moveByAI;
 
 
         public bool ChagneState(Animator animator, StateType newState)
@@ -76,35 +80,20 @@ namespace RPG.FSM
 
         private void Update()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
-            move = new Vector3(horizontal,0,vertical).normalized;
-            moveGain = Input.GetKey(KeyCode.LeftShift) ? 2.0f : 1.0f;
-            _animator.SetFloat("horizontal", horizontal * moveGain);
-            _animator.SetFloat("vertical", vertical * moveGain);
-
-            if(Input.GetMouseButtonDown(0))
+            if(_moveByAI)
             {
-                ChagneState(StateType.Attack);
+                Vector3 dir = Vector3.zero; //todo ->  Alt. ai actual destination direction
+                _animator.SetFloat("horizontal", Vector3.Dot(dir * moveGain, transform.right));
+                _animator.SetFloat("vertical", Vector3.Dot(dir * moveGain, transform.forward));
+            }
+            else
+            {
+                move = new Vector3(horizontal, 0, vertical).normalized;
+                _animator.SetFloat("horizontal", horizontal * moveGain);
+                _animator.SetFloat("vertical", vertical * moveGain);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (isGrounded)
-                {
-                    if (hasJumped == false)
-                    {
-                        ChagneState(StateType.Jump);
-                    }
-                }
-                else
-                {
-                    if (hasSomersaulted == false)
-                    {
-                        ChagneState(StateType.Somesault);
-                    }
-                }
-            }
+            //transform.position += move * moveGain * Time.fixedDeltaTime;
         }
 
         private void FixedUpdate()
@@ -112,6 +101,7 @@ namespace RPG.FSM
             if (isGrounded)
             {
                 _inertia = move * moveGain;
+                transform.position += move * moveGain * Time.fixedDeltaTime;
             }
             else
             {
