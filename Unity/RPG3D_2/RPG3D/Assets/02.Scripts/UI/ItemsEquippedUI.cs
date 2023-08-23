@@ -26,9 +26,20 @@ namespace RPG.UI
 
 
             _presenter = new ItemsEquippedPresenter();
+            for (int i = 0; i < _presenter.itemsEquippedSource.itemsEquippedSlotDatum.Count; i++)
+            {
+                if(slots.ContainsKey((BodyPart)i))
+                {
+                    slots[(BodyPart)i].Refresh(_presenter.itemsEquippedSource.itemsEquippedSlotDatum[i].itemID);
+                }
+            }
+            
+
             _presenter.itemsEquippedSource.itemsEquippedSlotDatum.onItemChanged += (slotIndex, slotData) =>
             {
                 BodyPart bodyPart = (BodyPart)slotIndex;
+                Debug.Log($"Equipped {slotData.itemID} on {bodyPart}");
+
                 switch (bodyPart)
                 {
                     case BodyPart.Head:

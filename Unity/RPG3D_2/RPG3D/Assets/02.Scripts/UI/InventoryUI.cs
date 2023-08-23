@@ -48,7 +48,14 @@ namespace RPG.UI
                         ItemDataRepository.instance.items.TryGetValue(slotData.itemID, out ItemData itemData) &&
                         itemData is UsableItemData)
                     {
-                        ((UsableItemData)itemData).Use();
+                        if (itemData is EquipmentItemData)
+                        {
+                            ((EquipmentItemData)itemData).Use(slot);
+                        }
+                        else
+                        {
+                            ((UsableItemData)itemData).Use();
+                        }
                         Debug.Log($"Used item in slot {slot.slotIndex}");
                     }
                 }

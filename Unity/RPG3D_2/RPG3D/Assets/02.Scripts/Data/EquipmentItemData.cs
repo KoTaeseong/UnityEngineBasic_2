@@ -28,7 +28,8 @@ namespace RPG.Data
                     inventoryData.equipmentSlotDatum[slot.slotIndex] = new InventoryData.EquipmentSlotData()
                     {
                         itemID = equippedSlotData.itemID,
-                        itemNum = 1
+                        itemNum = 1,
+                        enhanceLevel = equippedSlotData.enhanceLevel,
                     };
                 }
 
@@ -37,6 +38,7 @@ namespace RPG.Data
                 {
                     part = equippedItemData.bodyPart,
                     itemID = inventorySlotData.itemID,
+                    enhanceLevel = inventorySlotData.enhanceLevel,
                 };
 
             }
