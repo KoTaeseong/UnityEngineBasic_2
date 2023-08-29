@@ -573,7 +573,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 20
+  far clip plane: 500
   field of view: 30
   orthographic: 0
   orthographic size: 5
@@ -601,7 +601,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1e-45, z: 0, w: 1}
-  m_LocalPosition: {x: 5.08, y: 1.988, z: -9.65}
+  m_LocalPosition: {x: 39.401577, y: 6.45, z: 51.560265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1250,7 +1250,7 @@ Transform:
   m_GameObject: {fileID: 766822572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1e-45, z: -0, w: 1}
-  m_LocalPosition: {x: 5.08, y: 1.988, z: -9.65}
+  m_LocalPosition: {x: 39.401577, y: 6.45, z: 51.560265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1281,7 +1281,7 @@ MonoBehaviour:
     FieldOfView: 30
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 20
+    FarClipPlane: 500
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -1778,7 +1778,7 @@ GameObject:
   - component: {fileID: 1097594094}
   - component: {fileID: 1097594093}
   - component: {fileID: 1097594092}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3837,8 +3837,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7633029027912665104}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.993053, z: -0, w: 0.11766801}
-  m_LocalPosition: {x: -5.8, y: 0.5, z: 16.4}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 49.37022, y: 2.92, z: 101.37273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3846,7 +3846,7 @@ Transform:
   - {fileID: 7633029027912832054}
   - {fileID: 7633029027912832052}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 166.485, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &7633029027912832049
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13894,7 +13894,7 @@ Transform:
   m_GameObject: {fileID: 8805878703320308525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.08, y: 0.488, z: 0.35}
+  m_LocalPosition: {x: 39.401577, y: 4.95, z: 61.560265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -17900,7 +17900,7 @@ MonoBehaviour:
   hasJumped: 0
   hasSomersaulted: 0
   move: {x: 0, y: 0, z: 0}
-  moveGain: 0
+  moveGain: 1
   _groundMask:
     serializedVersion: 2
     m_Bits: 256

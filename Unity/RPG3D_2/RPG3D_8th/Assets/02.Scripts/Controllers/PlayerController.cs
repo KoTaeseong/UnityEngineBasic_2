@@ -27,7 +27,7 @@ namespace RPG.Controllers
         {
             _machineManager.horizontal = Input.GetAxis("Horizontal");
             _machineManager.vertical = Input.GetAxis("Vertical");
-            _machineManager.moveGain = Input.GetKey(KeyCode.LeftShift) ? 2.0f : 1.0f;
+            _machineManager.moveGain = Input.GetKey(KeyCode.LeftShift) ? 10.0f : 5.0f;
 
             if (Input.GetMouseButtonDown(0))
             {
