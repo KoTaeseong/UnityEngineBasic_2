@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using Cinemachine;
 
 public class VCam_FollowingPlayer : MonoBehaviour
@@ -26,7 +25,6 @@ public class VCam_FollowingPlayer : MonoBehaviour
         _followTargetRoot = _followTarget.root;
     }
 
-
     private void LateUpdate()
     {
         float mouseX = Input.GetAxis("Mouse X");
@@ -34,32 +32,30 @@ public class VCam_FollowingPlayer : MonoBehaviour
 
         _followTargetRoot.Rotate(Vector3.up, mouseX * _rotateSpeedY * Time.deltaTime, Space.World);
         _followTarget.Rotate(Vector3.left, mouseY * _rotateSpeedX * Time.deltaTime, Space.Self);
-
         _followTarget.eulerAngles = new Vector3(ClampAngle(_followTarget.eulerAngles.x, _angleXMin, _angleXMax),
-            _followTarget.eulerAngles.y,
-            0.0f);
+                                                _followTarget.eulerAngles.y,
+                                                0.0f);
 
-        if(Mathf.Abs(Input.mouseScrollDelta.y)>_scrollThreshold)
+        if (Mathf.Abs(Input.mouseScrollDelta.y) > _scrollThreshold)
         {
             _vCam.m_Lens.FieldOfView -= Input.mouseScrollDelta.y * _scrollSpeed * Time.deltaTime;
-            if(_vCam.m_Lens.FieldOfView < _fovMin)
+            if (_vCam.m_Lens.FieldOfView < _fovMin)
                 _vCam.m_Lens.FieldOfView = _fovMin;
-            else if(_vCam.m_Lens.FieldOfView > _fovMax)
+            else if (_vCam.m_Lens.FieldOfView > _fovMax)
                 _vCam.m_Lens.FieldOfView = _fovMax;
         }
     }
 
-    //음수 각도에 대해서는 360도를 더한후 360모듈러연산하면 양수로 클램핑 가능
+    // 음수 각도에 대해서는 360도를 더한후 360 모듈러연산하면 양수로 클램핑 가능
     private float ClampAngle(float angle, float min, float max)
     {
         angle = (angle + 360.0f) % 360.0f;
 
-        if(angle > 180)
+        if (angle > 180.0f)
         {
             angle -= 360.0f;
         }
 
         return Mathf.Clamp(angle, min, max);
     }
-
 }
