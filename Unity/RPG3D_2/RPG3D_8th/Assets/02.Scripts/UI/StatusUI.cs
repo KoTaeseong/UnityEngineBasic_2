@@ -16,7 +16,7 @@ namespace RPG.UI
         {
             base.Update();
 
-            if(ControllerManager.instance.TryGet(out PlayerController player))
+            if (ControllerManager.instance.TryGet(out PlayerController player))
             {
                 _attackCoolTimeFill.fillAmount
                     = player.machineManager.skillCoolTimers[_attackSkillID.value] 
@@ -25,4 +25,3 @@ namespace RPG.UI
         }
     }
 }
-

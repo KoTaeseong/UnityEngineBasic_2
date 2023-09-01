@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,19 @@ namespace RPG.FSM
         public override void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
         {
             base.OnStateMachineEnter(animator, stateMachinePathHash);
+        }
 
-            animator.SetBool("isDirty", false);
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
+
+            animator.SetBool("isDrity" + layerIndex, false);
+            manager.onUpdate = () => OnUpdate(animator, layerIndex);
+        }
+
+        public virtual void OnUpdate(Animator animator, int layerIndex)
+        {
+
         }
     }
 }

@@ -1,9 +1,13 @@
 using RPG.Controllers;
+using RPG.Collections;
 using RPG.Data;
+using RPG.GameElements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using RPG.GameElements.Stats;
 
 namespace RPG.FSM
 {
@@ -20,13 +24,59 @@ namespace RPG.FSM
 
 
     [RequireComponent(typeof(Animator))]
-    public class MachineManager : MonoBehaviour
+    public class MachineManager : MonoBehaviour, IHp, IMp
     {
         public bool isGrounded => Physics.Raycast(transform.position + Vector3.up,
                                                   Vector3.down,
                                                   out RaycastHit hit,
                                                   _groundCastMaxDistance + 1.0f,
                                                   _groundMask);
+
+        public float hp 
+        {
+            get => _hp; 
+            set
+            {
+                if (_hp == value)
+                    return;
+
+                float prev = _hp;
+                _hp = value;
+
+                onHpChanged?.Invoke(_hp);
+                if(_hp > prev)
+                {
+                    onHpRecovered?.Invoke(_hp - prev);
+                    if(_hp >= hpMax)
+                    {
+                        _hp = hpMax;
+                        onHpMax?.Invoke();
+                    }
+                }
+                else
+                {
+                    onHpDepleted?.Invoke(prev - _hp);
+                    if(_hp<= hpMin)
+                    {
+                        _hp = hpMin;
+                        onHpMin?.Invoke();
+                    }
+                }
+            } 
+        }
+        private float _hp;
+
+        public float hpMax => stats[StatType.HPMax].valueModified;
+
+        public float hpMin => 0.0f;
+
+        public float mp { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public float mpMax => throw new NotImplementedException();
+
+        public float mpMin => throw new NotImplementedException();
+
+        public UDictionary<StatType, Stat> stats;
 
 
         public StateType state;
@@ -39,18 +89,34 @@ namespace RPG.FSM
         private Animator _animator;
 
         private int _stateAnimHashID;
-        private int _isDirtyAnimHashID;
+        private int _isDirty0AnimHashID;
+        private int _isDirty1AnimHashID;
 
         public Vector3 move;
         public float moveGain;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _groundCastMaxDistance;
 
+
+        public Action onUpdate;
+
+
         private Vector3 _inertia;
         private Rigidbody _rigidbody;
 
         public float horizontal;
         public float vertical;
+
+        public event Action<float> onHpChanged;
+        public event Action<float> onHpRecovered;
+        public event Action<float> onHpDepleted;
+        public event Action onHpMax;
+        public event Action onHpMin;
+        public event Action<float> onMpchanged;
+        public event Action<float> onMpRecovered;
+        public event Action<float> onMpDepleted;
+        public event Action onMpMax;
+        public event Action onMpMin;
 
         public bool UseSkill(int skillID)
         {
@@ -59,23 +125,24 @@ namespace RPG.FSM
 
             if (skillCoolTimers[skillID] > 0.0f)
             {
-                //콤포 가능 구간
-                if ((skillCastingDoneFlags[skillID] && skills[skillID].comboStack < data.comboStackMax) == false)
+                // 콤보 가능 구간
+                if ((skillCastingDoneFlags[skillID] && skills[skillID].comboStack < data.comboStackMax))
                 {
                     if (ChangeState(data.state))
                     {
                         skillCastingDoneFlags[skillID] = false;
+                        _animator.SetBool(_isDirty1AnimHashID, true);
                         return true;
                     }
                 }
                 return false;
             }
 
-
             if (ChangeState(data.state))
             {
                 skillCoolTimers[skillID] = data.coolTime;
                 skillCastingDoneFlags[skillID] = false;
+                _animator.SetBool(_isDirty1AnimHashID, true);
                 return true;
             }
 
@@ -88,7 +155,8 @@ namespace RPG.FSM
                 return false;
 
             animator.SetInteger(_stateAnimHashID, (int)newState);
-            animator.SetBool(_isDirtyAnimHashID, true);
+            animator.SetBool(_isDirty0AnimHashID, true);
+            Debug.Log($"[MachineManager] : Changed state to {newState}");
             return true;
         }
 
@@ -98,14 +166,16 @@ namespace RPG.FSM
                 return false;
 
             _animator.SetInteger(_stateAnimHashID, (int)newState);
-            _animator.SetBool(_isDirtyAnimHashID, true);
+            _animator.SetBool(_isDirty0AnimHashID, true);
+            Debug.Log($"[MachineManager] : Changed state to {newState}");
             return true;
         }
 
         protected virtual void Awake()
         {
             _stateAnimHashID = Animator.StringToHash("state");
-            _isDirtyAnimHashID = Animator.StringToHash("isDirty");
+            _isDirty0AnimHashID = Animator.StringToHash("isDirty0");
+            _isDirty1AnimHashID = Animator.StringToHash("isDirty1");
             _animator = GetComponent<Animator>();
             _rigidbody = GetComponent<Rigidbody>();
             BehaviourBase[] behaviours = _animator.GetBehaviours<BehaviourBase>();
@@ -118,14 +188,15 @@ namespace RPG.FSM
 
             skills = new Dictionary<int, Skill>();
             skillCoolTimers = new Dictionary<int, float>();
-            skillCastingDoneFlags = new Dictionary<int, bool> { };
+            skillCastingDoneFlags = new Dictionary<int, bool>();
 
-            for(int i = 0;i < skillArray.Length; i++)
+            for (int i = 0; i < skillArray.Length; i++)
             {
                 skills.Add(skillArray[i].skillID.value, skillArray[i]);
-                skillCoolTimers.Add(skillArray[i].skillID.value,0.0f);
+                skillCoolTimers.Add(skillArray[i].skillID.value, 0.0f);
                 skillCastingDoneFlags.Add(skillArray[i].skillID.value, false);
             }
+
         }
 
         protected virtual void Update()
@@ -136,9 +207,9 @@ namespace RPG.FSM
                 {
                     skillCoolTimers[skillID] -= Time.deltaTime;
                     if (skillCoolTimers[skillID] <= 0.0f)
-                    { 
-                        skillCoolTimers[skillID] = 0.0f;
+                    {
                         skills[skillID].comboStack = 0;
+                        skillCoolTimers[skillID] = 0.0f;
                         skillCastingDoneFlags[skillID] = false;
                     }
                 }
@@ -147,6 +218,8 @@ namespace RPG.FSM
             move = Quaternion.LookRotation(transform.forward, transform.up) * new Vector3(horizontal, 0.0f, vertical).normalized;
             _animator.SetFloat("horizontal", Vector3.Dot(move * moveGain, transform.right));
             _animator.SetFloat("vertical", Vector3.Dot(move * moveGain, transform.forward));
+
+            onUpdate?.Invoke();
         }
 
         private void FixedUpdate()
@@ -171,6 +244,26 @@ namespace RPG.FSM
         private void Land() { }
 
         private void Hit() { }
+
+        public void RecorverHp(MachineManager characterMachine, float amount)
+        {
+            hp += amount;
+        }
+
+        public void DepleteHp(MachineManager characterMachine, float amount)
+        {
+            hp -= amount;
+        }
+
+        public void RecorverMp(MachineManager characterMachine, float amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DepleteMp(MachineManager characterMachine, float amount)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
     }
